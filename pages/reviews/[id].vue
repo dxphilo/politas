@@ -7,9 +7,8 @@ const route = useRoute()
 const id = ref<number>(route.params.id)
 const upvoted = ref<boolean>(false)
 const downvoted = ref<boolean>(false)
-const green = ref('rgb(0, 186, 124)')
 
-const { data, status, error, refresh } = await useFetch('/api/report', {
+const { data, refresh } = await useFetch('/api/report', {
   method: 'GET',
   query: { id },
   watch: [id],
@@ -53,14 +52,6 @@ async function handleDownvote(case_id: number) {
     console.error(`Error updating vote: ${error}`)
   }
 }
-
-function commentUpvote(event: any) {
-  alert(' comment upvote')
-}
-
-function commentDownvote(event: any) {
-  alert('comment downvote')
-}
 </script>
 
 <template>
@@ -69,7 +60,7 @@ function commentDownvote(event: any) {
   </p>
   <div v-if="isDataValid()">
     <!-- start main -->
-    <div class="transform mx-auto w-full border border-gray-200 rounded-2xl p-4 text-justify lg:w-3/5 hover:light:bg-gray-100">
+    <div class="mx-auto w-full transform border border-gray-200 rounded-2xl p-4 text-justify lg:w-3/5 hover:light:bg-gray-100">
       <div class="flex flex-wrap justify-between">
         <div class="flex flex-col">
           <p class="font-medium">
@@ -106,7 +97,7 @@ function commentDownvote(event: any) {
             <span>{{ data.case.downvotes }}</span>
           </div>
         </div>
-        <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="rounded-xl text-center bg-green px-4 py-1 font-extralight">
+        <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="rounded-xl bg-green px-4 py-1 text-center font-extralight">
           Reference
         </NuxtLink>
       </div>
@@ -122,7 +113,7 @@ function commentDownvote(event: any) {
           Add Comment
         </NuxtLink>
       </div>
-      <div v-for="review in data.reviews" :key="review.id" class="mb-5 w-full overflow-hidden transform border-1 border-gray-200 rounded-2xl p-4 text-justify hover:light:bg-gray-100">
+      <div v-for="review in data.reviews" :key="review.id" class="mb-5 w-full transform overflow-hidden border-1 border-gray-200 rounded-2xl p-4 text-justify hover:light:bg-gray-100">
         <div class="flex gap-2">
           <a class="rounded-xl bg-purple px-3 py-1 text-xs font-extralight">{{ review.user_id === null ? "Anonymous review" : review.user_id }}</a>
           <p class="pt-1 text-xs text-gray-400 font-light">
@@ -135,18 +126,6 @@ function commentDownvote(event: any) {
         <p class="font-normal light:text-slate-5">
           {{ review.review_text }}
         </p>
-        <!-- UPVOTE AND DOWNVOTE SECTION -->
-        <!-- <div class="mt-2 flex items-center gap-6" style="z-index: 999;">
-          <div class="flex cursor-pointer gap-2 border rounded-full px-2 py-1 hover:bg-gray-2" @click.prevent="commentUpvote">
-            <IconsThumpsUp class="h-5 w-5" />
-            <span>{{ review.upvotes }}</span>
-          </div>
-          <div class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 hover:bg-gray-2" @click.prevent="commentDownvote">
-            <IconsThumpsDown class="h-5 w-5" />
-            <span>{{ review.downvotes }}</span>
-          </div>
-        </div> -->
-      <!-- END OF UPVOTE AND DOWNVOTE -->
       </div>
     </div>
   </div>

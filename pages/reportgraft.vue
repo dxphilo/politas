@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue'
 import axios from 'axios'
 import { areAllValuesPresent, legalOutcomesArray } from '../utils/utils'
 
-const route = useRoute()
 const router = useRouter()
 
 const politician_id = ref<number>()
@@ -64,15 +63,6 @@ async function submitForm() {
   catch (error) {
     console.error(error)
   }
-}
-
-function resetAndGoBack() {
-  politician_id.value = 0,
-  name.value = ''
-  case_description.value = ''
-  legal_outcome.value = ''
-  case_date.value = ''
-  title.value = ''
 }
 </script>
 

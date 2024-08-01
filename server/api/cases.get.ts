@@ -12,18 +12,13 @@ async function fetchCorruptionCases(id: string) {
     }
   }
   catch (error) {
-    throw (error)
+    console.error(error)
   }
 }
 
 export default defineEventHandler((event) => {
-  try {
-    const query = getQuery(event)
-    const id = query.id as string
-    const corruptionCases = fetchCorruptionCases(id)
-    return corruptionCases
-  }
-  catch (error) {
-    console.error('Error fetching corruption cases:', error)
-  }
+  const query = getQuery(event)
+  const id = query.id as string
+  const corruptionCases = fetchCorruptionCases(id)
+  return corruptionCases
 })

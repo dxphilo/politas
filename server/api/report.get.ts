@@ -12,17 +12,12 @@ async function fetchReviews(case_id: number) {
     }
   }
   catch (error) {
-    throw (error)
+    console.error(error)
   }
 }
 
 export default defineEventHandler(async (context) => {
-  try {
-    const query = getQuery(context)
-    const id = query.id as number
-    return await fetchReviews(id)
-  }
-  catch (error) {
-    console.error('Error fetching Case reviews:', error)
-  }
+  const query = getQuery(context)
+  const id = query.id as number
+  return await fetchReviews(id)
 })

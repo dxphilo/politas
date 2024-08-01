@@ -20,7 +20,7 @@ function checkValues() {
 }
 async function submitCase() {
   try {
-    const { data, status, _error } = await useFetch('/api/report', {
+    const { status } = await useFetch('/api/report', {
       method: 'POST',
       body: {
         case_id: Number(case_id.value),
@@ -31,7 +31,7 @@ async function submitCase() {
 
       },
     })
-    if (status.value == 'success') {
+    if (status.value === 'success') {
       alert('Case submitted successfully')
       router.go(-1)
     }

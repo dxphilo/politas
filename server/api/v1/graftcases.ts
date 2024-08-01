@@ -12,16 +12,11 @@ async function fetchGraft() {
     }
   }
   catch (error) {
-    throw (error)
+    console.error(error)
   }
 }
 
 export default defineEventHandler(async (_context) => {
-  try {
-    const graft = await fetchGraft()
-    return { graft }
-  }
-  catch (error) {
-    console.error('Error fetching graft:', error)
-  }
+  const graft = await fetchGraft()
+  return { graft }
 })

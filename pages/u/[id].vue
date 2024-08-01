@@ -4,7 +4,7 @@ import { formatDate, getParty, isValidImageUrl } from '~/utils/utils'
 const route = useRoute()
 const id = route.params.id as string
 
-const { data, status, error } = await useFetch('/api/cases', {
+const { data } = await useFetch('/api/cases', {
   method: 'GET',
   query: { id },
 })
@@ -14,10 +14,6 @@ const { politician, corruption_cases } = data.value
 const photoUrl = computed(() => {
   return isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()
 })
-
-function generateReportGraftUrl() {
-
-}
 
 definePageMeta({
   layout: 'default',

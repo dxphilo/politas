@@ -7,16 +7,16 @@ const { data } = await useFetch('/api/politicians')
 
 interface CorruptionCase {
   id: number
-  politicianId: number
+  politician_id: number
   title?: string
   name: string
-  caseDescription: string
-  legalOutcome?: string
-  caseDate: string
+  case_description: string
+  legal_outcome?: string
+  case_date: string
   downvotes?: number
   upvotes?: number
-  createdAt?: string
-  updatedAt?: string
+  created_at?: string
+  updated_at?: string
 }
 
 const upvotedCases = ref<CorruptionCase[]>()
@@ -32,7 +32,7 @@ async function mostUpvotedCases() {
     upvotedCases.value = data.data.data.Multiple
   }
   catch (error) {
-    console.error('Error fetching politicians')
+    console.error('Error fetching politicians', error)
   }
 }
 </script>

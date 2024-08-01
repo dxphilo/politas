@@ -19,16 +19,11 @@ async function postReview(body: Comment) {
     }
   }
   catch (error) {
-    throw (error)
+    console.error(error)
   }
 }
 
 export default defineEventHandler(async (context) => {
-  try {
-    const body = await readBody(context)
-    return await postReview(body)
-  }
-  catch (error) {
-    console.error('Error fetching post reviews:', error)
-  }
+  const body = await readBody(context)
+  return await postReview(body)
 })

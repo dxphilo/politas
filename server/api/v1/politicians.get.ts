@@ -12,16 +12,11 @@ async function fetchPoliticians() {
     }
   }
   catch (error) {
-    throw (error)
+    console.error(error)
   }
 }
 
 export default defineEventHandler(async (_context) => {
-  try {
-    const politicians = await fetchPoliticians()
-    return { politicians }
-  }
-  catch (error) {
-    console.error('Error fetching politicians:', error)
-  }
+  const politicians = await fetchPoliticians()
+  return { politicians }
 })
