@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
-import { areAllValuesPresent, legalOutcomesArray } from '../utils/utils'
+import { ToastType, areAllValuesPresent, legalOutcomesArray, toastMessage } from '../utils/utils'
 
 const router = useRouter()
 
@@ -38,7 +38,7 @@ async function submitForm() {
     title.value,
   )
   if (!result) {
-    alert('All fields are required')
+    toastMessage('All fields are required', ToastType.Warning)
     return
   }
   try {
@@ -53,7 +53,7 @@ async function submitForm() {
     })
 
     if (response.status === 200) {
-      alert('Case added successfully')
+      toastMessage('Case added successfully', ToastType.Success)
       router.back()
     }
     else {

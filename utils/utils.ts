@@ -261,3 +261,21 @@ export const legalOutcomesArray = Object.values(LegalOutcome)
 export function areAllValuesPresent(...args: Array<any>): boolean {
   return args.every(arg => arg !== undefined && arg !== null && arg !== '')
 }
+
+export enum ToastType {
+  Success = 'success',
+  Error = 'error',
+  Warning = 'warning',
+  Info = 'info',
+}
+
+export function toastMessage(text: string, type?: ToastType) {
+  const snackbar = useSnackbar()
+
+  snackbar.add({
+    type,
+    text,
+    dismissible: true,
+    background: 'gray',
+  })
+}

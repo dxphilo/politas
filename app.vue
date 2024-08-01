@@ -10,6 +10,7 @@ useHead({
   <VitePwaManifest />
   <NuxtLayout>
     <NuxtPage />
+    <NuxtSnackbar />
   </NuxtLayout>
 </template>
 

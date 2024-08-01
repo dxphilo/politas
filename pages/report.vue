@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { counties, kenyanPoliticalParties } from '../utils/utils'
+import { ToastType, counties, kenyanPoliticalParties, toastMessage } from '../utils/utils'
 
 const name = ref<string>('')
 const office = ref<string>('')
@@ -11,27 +11,27 @@ const photo_url = ref<string>('')
 
 function validateForm(): boolean {
   if (!name.value) {
-    alert('Please enter name')
+    toastMessage('Please enter name', ToastType.Warning)
     return false
   }
   if (!office.value) {
-    alert('Please enter office')
+    toastMessage('Please enter office', ToastType.Warning)
     return false
   }
   if (!county.value) {
-    alert('Please enter county')
+    toastMessage('Please enter county', ToastType.Warning)
     return false
   }
   if (!political_party.value) {
-    alert('Please enter political party')
+    toastMessage('Please enter political party', ToastType.Warning)
     return false
   }
   if (!source_website.value) {
-    alert('Please enter source website')
+    toastMessage('Please enter source website', ToastType.Warning)
     return false
   }
   if (!photo_url.value) {
-    alert('Please enter photo URL')
+    toastMessage('Please enter photo URL', ToastType.Warning)
     return false
   }
   return true
@@ -55,7 +55,7 @@ async function handleSubmit() {
   })
 
   if (status.value === 'success') {
-    alert('Politician added successfully.')
+    toastMessage('Politician added successfully.', ToastType.Success)
     resetForm()
   }
   else {
@@ -88,12 +88,12 @@ function resetForm() {
 
     <div>
       <label for="photo_url" class="block text-sm font-medium light:text-gray-700">Photo URL</label>
-      <input id="photo_url" v-model="photo_url" placeholder="Enter photo url"type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="photo_url" v-model="photo_url" placeholder="Enter photo url" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
 
     <div>
       <label for="office" class="block text-sm font-medium light:text-gray-700">Office</label>
-      <input id="office" v-model="office" placeholder="Enter office"type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="office" v-model="office" placeholder="Enter office" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
     <div>
       <label for="county" class="block text-sm font-medium light:text-gray-700">County</label>
@@ -101,8 +101,8 @@ function resetForm() {
         <option value="" disabled>
           Select County
         </option>
-        <option v-for="county in counties" :key="county" :value="county">
-          {{ county }}
+        <option v-for="counti in counties" :key="counti" :value="counti">
+          {{ counti }}
         </option>
       </select>
     </div>
@@ -121,7 +121,7 @@ function resetForm() {
 
     <div>
       <label for="source_website" class="block text-sm font-medium light:text-gray-700">Source Website/link</label>
-      <input id="source_website" v-model="source_website" placeholder="Enter graft case link"type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="source_website" v-model="source_website" placeholder="Enter graft case link" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
 
     <button class="inline-flex items-center border border-transparent rounded-md bg-green-600 px-4 py-2 text-sm text-white font-medium shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" @click.prevent="handleSubmit">

@@ -10,8 +10,13 @@ export default defineNuxtConfig({
     '@vite-pwa/nuxt',
     '@nuxt/eslint',
     '@stefanobartoletti/nuxt-social-share',
+    'nuxt-snackbar',
   ],
-
+  snackbar: {
+    top: true,
+    right: true,
+    duration: 5000,
+  },
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
     // but missing on offline, disabling extraction it until fixed

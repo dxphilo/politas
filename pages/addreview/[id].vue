@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { ToastType, toastMessage } from '../utils/utils'
 
 const route = useRoute()
 const router = useRouter()
@@ -15,7 +16,7 @@ function checkValues() {
     submitCase()
   }
   else {
-    alert('Please fill in all fields')
+    toastMessage('Please fill in all fields', ToastType.Warning)
   }
 }
 async function submitCase() {
@@ -32,7 +33,7 @@ async function submitCase() {
       },
     })
     if (status.value === 'success') {
-      alert('Case submitted successfully')
+      toastMessage('Case submitted successfully', ToastType.Success)
       router.go(-1)
     }
   }
@@ -44,7 +45,7 @@ async function submitCase() {
 
 <template>
   <div class="mx-auto w-full lg:w-3/5">
-    <form class="mx-auto max-w-lg rounded-lg p-4 text-justify" @submit.prevent="submitCase">
+    <form class="mx-auto max-w-lg rounded-lg p-4 text-justify" @submit.prevent="checkValues()">
       <div class="mb-4">
         <label for="title" class="block text-sm font-medium light:text-gray-700">Title:</label>
         <textarea
