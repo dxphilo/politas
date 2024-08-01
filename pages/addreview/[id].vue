@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ToastType, toastMessage } from '../utils/utils'
+import { ToastType, toastMessage } from '../../utils/utils'
 
 const route = useRoute()
 const router = useRouter()
