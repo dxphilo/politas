@@ -13,6 +13,10 @@
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit"
   },
+  "dependencies": {
+    "axios": "^1.7.2",
+    "vue3-marquee": "^4.2.0"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "^2.17.0",
     "@iconify-json/carbon": "^1.1.32",
@@ -21,6 +25,7 @@
     "@nuxt/eslint": "^0.3.12",
     "@nuxtjs/color-mode": "^3.4.1",
     "@pinia/nuxt": "^0.5.1",
+    "@stefanobartoletti/nuxt-social-share": "^1.0.0",
     "@unocss/eslint-config": "^0.60.0",
     "@unocss/nuxt": "^0.60.0",
     "@vite-pwa/nuxt": "^0.7.0",
