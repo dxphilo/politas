@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { backendUrl } from '~/constants'
 import { getParty, randomFallbackUrl } from '~/utils/utils'
+import { type Politician } from '~/type/index'
 
 const { data } = await useFetch('/api/politicians')
 
@@ -123,7 +124,7 @@ async function mostUpvotedCases() {
           County: {{ politician.county }}
         </p>
         <p class="">
-          Party: {{ getParty(politician.political_party) }}
+          Party: {{ getParty(politician.political_party!) }}
         </p>
       </div>
     </NuxtLink>

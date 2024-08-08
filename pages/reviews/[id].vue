@@ -15,7 +15,7 @@ const upvoted = ref<boolean>(false)
 const downvoted = ref<boolean>(false)
 const slice_to = ref<number>(3)
 
-const { data, refresh } = await useFetch('/api/report', {
+const { data , refresh } = await useFetch('/api/report', {
   method: 'GET',
   query: { id },
   watch: [id],
