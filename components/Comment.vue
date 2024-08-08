@@ -7,7 +7,6 @@ const prop = defineProps({
 })
 const emit = defineEmits(['refreshComments'])
 
-const router = useRouter()
 const snackbar = useSnackbar()
 
 const case_id = ref<number>(prop.id!)
@@ -26,7 +25,7 @@ function checkValues() {
 }
 async function submitCase() {
   try {
-    const { status, refresh } = await useFetch('/api/report', {
+    const { status } = await useFetch('/api/report', {
       method: 'POST',
       body: {
         case_id: Number(case_id.value),
