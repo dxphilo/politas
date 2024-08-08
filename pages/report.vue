@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ToastType, counties, kenyanPoliticalParties, toastMessage } from '../utils/utils'
+import { counties, kenyanPoliticalParties } from '../utils/utils'
+
+const snackbar = useSnackbar()
 
 const name = ref<string>('')
 const office = ref<string>('')
@@ -11,27 +13,27 @@ const photo_url = ref<string>('')
 
 function validateForm(): boolean {
   if (!name.value) {
-    toastMessage('Please enter name', ToastType.Warning)
+    snackbar.add({ title: 'Please enter name', type: 'warning' })
     return false
   }
   if (!office.value) {
-    toastMessage('Please enter office', ToastType.Warning)
+    snackbar.add({ title: 'Please enter office', type: 'warning' })
     return false
   }
   if (!county.value) {
-    toastMessage('Please enter county', ToastType.Warning)
+    snackbar.add({ title: 'Please enter county', type: 'warning' })
     return false
   }
   if (!political_party.value) {
-    toastMessage('Please enter political party', ToastType.Warning)
+    snackbar.add({ title: 'Please enter political party', type: 'warning' })
     return false
   }
   if (!source_website.value) {
-    toastMessage('Please enter source website', ToastType.Warning)
+    snackbar.add({ title: 'Please enter source website', type: 'warning' })
     return false
   }
   if (!photo_url.value) {
-    toastMessage('Please enter photo URL', ToastType.Warning)
+    snackbar.add({ title: 'Please enter photo URL', type: 'warning' })
     return false
   }
   return true
@@ -55,7 +57,7 @@ async function handleSubmit() {
   })
 
   if (status.value === 'success') {
-    toastMessage('Politician added successfully.', ToastType.Success)
+    snackbar.add({ title: 'Politician added successfully.', type: 'warning' })
     resetForm()
   }
   else {

@@ -3,15 +3,13 @@ import axios from 'axios'
 import { formatDate, getRandomColor } from '../../utils/utils'
 import { backendUrl } from '~/constants'
 
-const route = useRoute()
 const snackbar = useSnackbar()
 
-const idParam = route.params?.id
-const id = ref<number | undefined>(Number.parseInt(idParam))
+const route = useRoute()
+const id = ref<number>(0)
 
-if (Number.isNaN(id.value!)) {
-  snackbar.add({ text: 'id cannot be NaN', type: 'error' })
-}
+if ('id' in route.params)
+  id.value = Number.parseInt(route.params.id)
 
 const upvoted = ref<boolean>(false)
 const downvoted = ref<boolean>(false)

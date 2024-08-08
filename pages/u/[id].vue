@@ -2,7 +2,10 @@
 import { formatDate, getParty, isValidImageUrl } from '~/utils/utils'
 
 const route = useRoute()
-const id = route.params.id as string
+const id = ref<number>(0)
+
+if ('id' in route.params)
+  id.value = Number.parseInt(route.params.id)
 
 const { data } = await useFetch('/api/cases', {
   method: 'GET',

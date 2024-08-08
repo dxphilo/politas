@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ToastType, toastMessage } from '../../utils/utils'
 
 const route = useRoute()
 const router = useRouter()
+const snackbar = useSnackbar()
 
-const case_id = ref<number>(route.params.id)
+const id = ref<number>(0)
+if ('id' in route.params)
+  id.value = Number.parseFloat(route.params.id)
+
+const case_id = ref<number>(id.value)
 const title = ref<string>('')
 const review_text = ref<string>('')
 const user_id = ref<string>('')
@@ -16,7 +20,7 @@ function checkValues() {
     submitCase()
   }
   else {
-    toastMessage('Please fill in all fields', ToastType.Warning)
+    snackbar.add({ title: 'Please fill in all fields', type: 'warning' })
   }
 }
 async function submitCase() {
@@ -33,7 +37,7 @@ async function submitCase() {
       },
     })
     if (status.value === 'success') {
-      toastMessage('Case submitted successfully', ToastType.Success)
+      snackbar.add({ title: 'Case submitted successfully', type: 'success' })
       router.go(-1)
     }
   }
