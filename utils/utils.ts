@@ -95,17 +95,6 @@ export function getMonthYear(dateString: Date | string): string {
   return monthYearString
 }
 
-export function maskNumber(
-  numberString: string,
-  startDigits: number,
-  endDigits: number,
-) {
-  const start = numberString.slice(0, startDigits)
-  const end = numberString.slice(-endDigits)
-  const middle = ''.padEnd(numberString.length - startDigits - endDigits, 'x')
-  return start + middle + end
-}
-
 export function stringToHslColor(str: string, s = 40, l = 80) {
   let hash = 0
   for (let i = 0; i < str.length; i++)
@@ -124,29 +113,6 @@ export default function readingTime(content: any) {
   minutes = Math.ceil(words / wordsPerMinute)
 
   return minutes
-}
-
-export function isBusinessOpen(openingHours: string[]): boolean {
-  if (openingHours.length !== 2)
-    return false
-
-  const [openingTime, closingTime] = openingHours
-  const now = new Date()
-  const currentHour = now.getHours()
-  const currentMinute = now.getMinutes()
-  const currentTime = currentHour * 60 + currentMinute
-
-  const [openingHour, openingMinute] = openingTime.split(':').map(Number)
-  const openingTimeInMinutes = openingHour * 60 + openingMinute
-
-  const [closingHour, closingMinute] = closingTime.split(':').map(Number)
-  const closingTimeInMinutes = closingHour * 60 + closingMinute
-
-  if (currentTime >= openingTimeInMinutes && currentTime <= closingTimeInMinutes)
-    return true
-
-  else
-    return false
 }
 
 export const counties = [
@@ -262,20 +228,27 @@ export function areAllValuesPresent(...args: Array<any>): boolean {
   return args.every(arg => arg !== undefined && arg !== null && arg !== '')
 }
 
-export enum ToastType {
-  Success = 'success',
-  Error = 'error',
-  Warning = 'warning',
-  Info = 'info',
+// https://stackoverflow.com/questions/1484506/random-color-generator
+export function getRandomColor() {
+  const letters = '0123456789ABCDEF'
+  let color = '#'
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)]
+  }
+  return color
 }
 
-export function toastMessage(text: string, type?: ToastType) {
-  const snackbar = useSnackbar()
-
-  snackbar.add({
-    type,
-    text,
-    dismissible: true,
-    background: 'gray',
-  })
-}
+export const socialMediaShare = [
+  'facebook',
+  'twitter',
+  'linkedin',
+  'pinterest',
+  'reddit',
+  'bluesky',
+  'pocket',
+  'whatsapp',
+  'telegram',
+  'skype',
+  'line',
+  'email',
+]

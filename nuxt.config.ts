@@ -1,5 +1,5 @@
 import { pwa } from './config/pwa'
-import { appDescription } from './constants/index'
+import { appDescription, host } from './constants/index'
 
 export default defineNuxtConfig({
   modules: [
@@ -14,8 +14,12 @@ export default defineNuxtConfig({
   ],
   snackbar: {
     top: true,
-    right: true,
+    center: true,
     duration: 5000,
+  },
+  socialShare: {
+    baseUrl: host, // required!
+    icon: true,
   },
   experimental: {
     // when using generate, payload js assets included in sw precache manifest
@@ -42,7 +46,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: false,
       routes: ['/'],
-      ignore: ['/hi'],
+      ignore: ['/u'],
     },
   },
 

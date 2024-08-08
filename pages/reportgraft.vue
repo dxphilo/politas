@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
-import { ToastType, areAllValuesPresent, legalOutcomesArray, toastMessage } from '../utils/utils'
+import { areAllValuesPresent, legalOutcomesArray } from '../utils/utils'
 
 const router = useRouter()
+const snackbar = useSnackbar()
 
 const politician_id = ref<number>()
 const name = ref<string>('')
@@ -12,6 +13,7 @@ const legal_outcome = ref<string>('')
 const case_date = ref<string>('')
 const title = ref<string>('')
 const link = ref<string>('')
+
 // TODO: find a better way to handle this in props as opposed to url params
 onMounted(() => {
   const url = new URL(window.location.href)
@@ -38,7 +40,7 @@ async function submitForm() {
     title.value,
   )
   if (!result) {
-    toastMessage('All fields are required', ToastType.Warning)
+    snackbar.add({ title: 'All fields are required', type: 'warning' })
     return
   }
   try {
@@ -53,7 +55,7 @@ async function submitForm() {
     })
 
     if (response.status === 200) {
-      toastMessage('Case added successfully', ToastType.Success)
+      snackbar.add({ title: 'Case added successfully', type: 'success' })
       router.back()
     }
     else {
@@ -121,7 +123,7 @@ async function submitForm() {
         </select>
       </div>
 
-      <button type="submit" class="mt-6 w-full cursor-pointer rounded-md bg-green-500 px-4 py-2 text-white font-semibold shadow-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-75" @click.prevent="submitForm()">
+      <button type="submit" class="w-full flex justify-center btn" @click.prevent="submitForm()">
         Submit
       </button>
     </form>

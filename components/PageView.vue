@@ -11,12 +11,12 @@ interface CorruptionCase {
   title?: string
   name: string
   case_description: string
-  legal_outcome?: string
+  legal_outcome: string
   case_date: string
-  downvotes?: number
-  upvotes?: number
-  created_at?: string
-  updated_at?: string
+  downvotes: number
+  upvotes: number
+  created_at: string
+  updated_at: string
 }
 
 const upvotedCases = ref<CorruptionCase[]>()
@@ -61,8 +61,8 @@ async function mostUpvotedCases() {
   </h1>
   <div class="mx-auto lg:w-3/5">
     <div v-if="upvotedCases && upvotedCases.length > 0">
-      <NuxtLink v-for="caseData in upvotedCases.slice(0, 4)" :key="caseData.id" :to="`/reviews/${caseData.id}`" class="px-3">
-        <div class="m-4 border border-gray-200 rounded-2xl p-6 text-justify hover:light:bg-gray-1">
+      <div v-for="caseData in upvotedCases.slice(0, 4)" :key="caseData.id" class="m-4 transform border border-gray-200 rounded-2xl p-6 text-justify transition hover:light:bg-gray-1">
+        <NuxtLink :to="`/reviews/${caseData.id}`">
           <div class="flex justify-between">
             <div class="mb-1">
               <p class="text-lg font-medium light:text-gray-700">
@@ -70,7 +70,7 @@ async function mostUpvotedCases() {
               </p>
             </div>
             <p class="text-sm text-gray-500">
-              <span class="font-bold">Reported :</span>
+              <span class="text-xs font-bold">Reported : </span>
               <span class="text-xs font-light light:text-gray-400">
                 {{ formatDate(caseData.created_at) }}
               </span>
@@ -92,25 +92,25 @@ async function mostUpvotedCases() {
               {{ caseData.case_description }}
             </p>
           </div>
-          <div class="mb-4 flex space-x-4">
-            <div class="flex items-center gap-x-1 text-lg text-gray-700">
-              <IconsThumpsUp fill="rgb(20 184 166)" class="h-5 w-5" />
+          <div class="my-2 flex space-x-4">
+            <div class="flex items-center gap-x-1 border border-green rounded-full px-2 py-2 text-xs text-gray-700">
+              <span>👍</span>
               <span class="text-teal-500">{{ caseData.upvotes }}</span>
             </div>
-            <div class="flex items-center gap-x-1 text-lg text-gray-700">
-              <IconsThumpsDown fill="#FF0000" class="h-5 w-5" />
+            <div class="flex items-center gap-x-1 border border-red rounded-full px-2 py-2 text-xs text-gray-700">
+              <span>👎</span>
               <span class="text-[#ff0000]">{{ caseData.downvotes }}</span>
             </div>
           </div>
-        </div>
-      </NuxtLink>
+        </NuxtLink>
+      </div>
     </div>
   </div>
   <h1 class="py-10 text-xl text-gray-500">
     Reported Graft Cases
   </h1>
   <div class="mx-auto w-3/5 flex flex-wrap gap-6">
-    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/u/${politician.politician_id}`" class="w-280px overflow-hidden border border-gray-200 rounded-2xl pb-6 transition ease-linear hover:border-gray-5">
+    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/u/${politician.politician_id}`" class="w-280px transform overflow-hidden border border-gray-200 rounded-2xl pb-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
       <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="object-fit h-42 w-full bg-cover">
       <div class="p-4">
         <h5 class="text-xl font-bold">

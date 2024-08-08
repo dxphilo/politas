@@ -1,12 +1,21 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { ToastType, formatDate, toastMessage } from '../../utils/utils'
+import { formatDate, getRandomColor } from '../../utils/utils'
 import { backendUrl } from '~/constants'
 
 const route = useRoute()
-const id = ref<number>(route.params.id)
+const snackbar = useSnackbar()
+
+const idParam = route.params?.id
+const id = ref<number | undefined>(Number.parseInt(idParam))
+
+if (Number.isNaN(id.value!)) {
+  snackbar.add({ text: 'id cannot be NaN', type: 'error' })
+}
+
 const upvoted = ref<boolean>(false)
 const downvoted = ref<boolean>(false)
+const slice_to = ref<number>(3)
 
 const { data, refresh } = await useFetch('/api/report', {
   method: 'GET',
@@ -17,14 +26,14 @@ const isDataValid = () => data.value !== undefined
 
 async function handleUpvote(case_id: number) {
   if (upvoted.value) {
-    toastMessage('You have upvoted this case, thank you!', ToastType.Success)
+    snackbar.add({ title: 'You have upvoted this case, thank you!', type: 'warning' })
     return
   }
   try {
     const responce = await axios.post(`${backendUrl}/case/upvote/${case_id}`)
     const { status } = responce
     if (status === 201) {
-      toastMessage('You have upvoted this case, thank you!', ToastType.Success)
+      snackbar.add({ text: 'You have upvoted this case, thank you!', type: 'success' })
     }
     upvoted.value = !upvoted.value
     refresh()
@@ -36,14 +45,14 @@ async function handleUpvote(case_id: number) {
 
 async function handleDownvote(case_id: number) {
   if (downvoted.value) {
-    toastMessage('You have Dwonvoted this case, thank you!', ToastType.Success)
+    snackbar.add({ text: 'You have Downvoted this case, thank you!', type: 'warning' })
     return
   }
   try {
     const responce = await axios.post(`${backendUrl}/case/downvote/${case_id}`)
     const { status } = responce
     if (status === 201) {
-      toastMessage('You have downvoted this case, thank you!', ToastType.Success)
+      snackbar.add({ text: 'You have downvoted this case, thank you!', type: 'success' })
     }
     downvoted.value = !downvoted.value
     refresh()
@@ -52,6 +61,7 @@ async function handleDownvote(case_id: number) {
     console.error(`Error updating vote: ${error}`)
   }
 }
+refresh()
 </script>
 
 <template>
@@ -61,7 +71,7 @@ async function handleDownvote(case_id: number) {
     </p>
     <div v-if="isDataValid()">
       <!-- start main -->
-      <div class="mx-auto w-full transform border border-gray-200 rounded-2xl p-4 text-justify lg:w-3/5 hover:light:bg-gray-100">
+      <div class="mx-auto w-full transform border border-gray-200 rounded-2xl p-4 text-justify lg:w-3/5">
         <div class="flex flex-wrap justify-between">
           <div class="flex flex-col">
             <p class="font-medium">
@@ -86,21 +96,34 @@ async function handleDownvote(case_id: number) {
         <p class="py-2 text-base font-light light:text-slate-5">
           {{ data.case.case_description }}
         </p>
-        <!-- TODO add like/dislike feature -->
-        <div class="flex gap-x-2">
+        <div class="flex justify-between gap-x-2">
           <div class="flex items-center gap-4" style="z-index: 999;">
-            <div :class="upvoted ? 'text-green border-green' : '' " class="flex cursor-pointer gap-2 border rounded-full px-2 py-1 hover:bg-gray-2" @click.prevent="handleUpvote(data.case.id)">
-              <IconsThumpsUp :fill="upvoted ? 'rgb(0, 186, 124)' : 'currentColor'" class="h-5 w-5" />
-              <span>{{ data.case.upvotes }}</span>
+            <div :class="upvoted ? 'text-green border-green' : '' " class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent="handleUpvote(data.case.id)">
+              <span>👍</span>
+              <span class="text-xs">{{ data.case.upvotes }}</span>
             </div>
-            <div :class="downvoted ? 'text-[#FF0000] border-[#FF0000]' : '' " class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 hover:bg-gray-2" @click.prevent="handleDownvote(data.case.id)">
-              <IconsThumpsDown :fill="downvoted ? '#FF0000' : 'currentColor'" class="h-5 w-5" />
-              <span>{{ data.case.downvotes }}</span>
+            <div :class="downvoted ? 'text-[#FF0000] border-[#FF0000]' : '' " class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent="handleDownvote(data.case.id)">
+              <span>👎</span>
+              <span class="text-xs">{{ data.case.downvotes }}</span>
             </div>
+            <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="btn">
+              Reference
+            </NuxtLink>
           </div>
-          <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="rounded-xl bg-green px-4 py-1 text-center font-extralight">
-            Reference
-          </NuxtLink>
+
+          <div class="flex flex-row gap-2">
+            <SocialShare
+              v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'pinterest', 'reddit']"
+              :key="network"
+              :network="network"
+              :styled="true"
+              :label="false"
+              :title="`${data.case.title}`"
+              hashtags="PublicWatch,CorruptPoliticians,Kenya"
+              user="philip46906"
+              class="rounded-full p-2 light:text-white"
+            />
+          </div>
         </div>
       </div>
       <!-- end main -->
@@ -110,29 +133,41 @@ async function handleDownvote(case_id: number) {
           <p class="text-justify font-normal light:text-gray-700">
             Public comments for this case: <span class="font-bold">{{ data.reviews.length }}</span>
           </p>
-          <NuxtLink :to="`/addreview/${id}`" class="btn">
-            Add Comment
-          </NuxtLink>
         </div>
-        <div v-for="review in data.reviews" :key="review.id" class="mb-5 w-full transform overflow-hidden border-1 border-gray-200 rounded-2xl p-4 text-justify hover:light:bg-gray-100">
-          <div class="flex gap-2">
-            <a class="rounded-xl bg-purple px-3 py-1 text-xs font-extralight">{{ review.user_id === null ? "Anonymous review" : review.user_id }}</a>
-            <p class="pt-1 text-xs text-gray-400 font-light">
-              {{ formatDate(review.created_at) }}
-            </p>
+        <div>
+          <Comment :id="id" :title="data.case.title" @refresh-comments="refresh()" />
+        </div>
+        <div v-for="review in data.reviews.slice(0, slice_to)" :key="review.id" class="mb-6 w-full flex items-start gap-2.5 overflow-hidden border border-gray-200 rounded-lg p-3 dark:border-gray-600 dark:bg-gray-700">
+          <div>
+            <div class="my-2 flex gap-3">
+              <p :style="{ backgroundColor: getRandomColor() }" class="h-8 w-8 border border-gray-50 rounded-full" />
+              <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                <span class="text-sm text-gray-900 font-semibold dark:text-white">{{ review.user_id ? review.user_id : "Anonymous Comment" }}</span>
+                <span class="text-xs text-gray-400 font-light dark:text-gray-400">{{ formatDate(review.created_at) }}</span>
+              </div>
+            </div>
+            <div class="max-w-full w-full flex flex-col gap-1">
+              <div class="flex flex-col p-2 leading-1.5 dark:bg-gray-700">
+                <p class="overflow-hidden text-justify text-sm text-gray-900 font-normal dark:text-white">
+                  {{ review.review_text }}
+                </p>
+              </div>
+            </div>
           </div>
-          <p class="py-3 text-xl font-semibold">
-            {{ review.title }}
+        </div>
+        <div v-if="data.reviews.length > 3">
+          <p class="text-xs text-gray-400 font-light">
+            Showing {{ slice_to }} of {{ data.reviews.length }} comments
           </p>
-          <p class="font-normal light:text-slate-5">
-            {{ review.review_text }}
+          <p v-if="data.reviews.length > 0 && slice_to != data.reviews.length" :to="`/comments/${id}`" class="cursor-pointer text-xs text-blue-500 font-medium" @click="slice_to = data.reviews.length">
+            See all comments
           </p>
         </div>
       </div>
     </div>
     <div v-else class="mx-auto w-full lg:w-2/5">
       <p class="py-6 text-lg text-gray-400">
-        Comments or this case not found, Do you want to add your comment?
+        Comments for this case not found, Do you want to add your comment?
       </p>
       <NuxtLink class="btn" :to="`/addreview/${id}`">
         Add Comment
