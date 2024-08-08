@@ -2,7 +2,6 @@
 import axios from 'axios'
 import { backendUrl } from '~/constants'
 import { getParty, randomFallbackUrl } from '~/utils/utils'
-import { type Politician } from '~/type/index'
 
 const { data } = await useFetch('/api/politicians')
 

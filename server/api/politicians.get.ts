@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { backendUrl } from '~/constants'
-import { type Politician } from '~/type'
+import type { Politician } from '~/type'
 
 async function fetchPoliticians() {
   try {
     const response = await axios.get(`${backendUrl}/politicians`)
     if (response.status === 200 && response.data.success === true) {
-      const data: Array<Politician>= response.data.data.Multiple
+      const data: Array<Politician> = response.data.data.Multiple
       return data
     }
     else {
