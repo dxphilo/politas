@@ -7,7 +7,7 @@
       <IconsKenyaFlag class="" />
       Public Watch
     </NuxtLink>
-    <NuxtLink to="/report" class="btn">
+    <NuxtLink to="/report" class="m-3 text-sm btn">
       Report
     </NuxtLink>
   </div>

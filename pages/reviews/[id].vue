@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import axios from 'axios'
 import { formatDate, getRandomColor } from '../../utils/utils'
-import { backendUrl } from '~/constants'
 
 const snackbar = useSnackbar()
+const config = useRuntimeConfig();
 
 const route = useRoute()
 const id = ref<number>(0)
@@ -14,6 +14,7 @@ if ('id' in route.params)
 const upvoted = ref<boolean>(false)
 const downvoted = ref<boolean>(false)
 const slice_to = ref<number>(3)
+const backendUrl = config.public.backendUrl
 
 const { data, refresh } = await useFetch('/api/report', {
   method: 'GET',
@@ -64,7 +65,7 @@ refresh()
 
 <template>
   <div>
-    <p class="pb-3 text-4xl">
+    <p class="pb-3 text-3xl">
       {{ data.case.name }} Graft Comments
     </p>
     <div v-if="isDataValid()">
@@ -72,9 +73,9 @@ refresh()
       <div class="mx-auto w-full transform border border-gray-200 rounded-2xl p-4 text-justify lg:w-3/5">
         <div class="flex flex-wrap justify-between">
           <div class="flex flex-col">
-            <p class="font-medium">
+            <NuxtLink class="font-medium hover:underline" :to="`/u/${data.case.politician_id}`">
               {{ data.case.name }}
-            </p>
+            </NuxtLink>
             <p class="pt-1 text-xs text-gray-400 font-light">
               {{ formatDate(data.case.created_at) }}
             </p>
@@ -96,22 +97,22 @@ refresh()
         </p>
         <div class="flex justify-between gap-x-2">
           <div class="flex items-center gap-4" style="z-index: 999;">
-            <div :class="upvoted ? 'text-green border-green' : '' " class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent="handleUpvote(data.case.id)">
+            <div :class="upvoted ? 'text-green border-green' : '' " class="flex cursor-pointer items-center gap-1 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent.once="handleUpvote(data.case.id)">
               <span>👍</span>
               <span class="text-xs">{{ data.case.upvotes }}</span>
             </div>
-            <div :class="downvoted ? 'text-[#FF0000] border-[#FF0000]' : '' " class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent="handleDownvote(data.case.id)">
+            <div :class="downvoted ? 'text-[#FF0000] border-[#FF0000]' : '' " class="flex cursor-pointer items-center gap-1 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent.once="handleDownvote(data.case.id)">
               <span>👎</span>
               <span class="text-xs">{{ data.case.downvotes }}</span>
             </div>
-            <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="btn">
-              Reference
+            <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="currentColor" d="M8.462 17.173q-2.273 0-3.867-1.565Q3 14.042 3 11.778Q3 9.517 4.595 7.94t3.867-1.575h8.73q1.587 0 2.698 1.092Q21 8.548 21 10.135t-1.11 2.678q-1.111 1.09-2.698 1.09H8.923q-.88 0-1.517-.614t-.637-1.498t.627-1.52t1.527-.636h8.308v1H8.923q-.479 0-.816.327t-.338.807t.338.807t.816.328h8.289q1.165-.006 1.977-.802T20 10.135q0-1.163-.821-1.966t-1.987-.803h-8.73Q6.608 7.36 5.304 8.648T4 11.786q0 1.823 1.305 3.1t3.157 1.287h8.769v1z" /></svg>
             </NuxtLink>
           </div>
 
           <div class="flex flex-row gap-2">
             <SocialShare
-              v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'pinterest', 'reddit']"
+              v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'reddit']"
               :key="network"
               :network="network"
               :styled="true"

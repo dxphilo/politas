@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { backendUrl } from '~/constants'
+
+const config = useRuntimeConfig();
+const backendUrl = config.public.backendUrl
 
 async function fetchReviews(case_id: number) {
   try {

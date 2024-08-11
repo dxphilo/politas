@@ -45,13 +45,28 @@ definePageMeta({
           Party: {{ getParty(politician.political_party) }}
         </p>
       </div>
+      <!-- social share profile of policticians -->
+
+      <div class="my-3 flex flex-row justify-center gap-2">
+        <SocialShare
+          v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp','reddit']"
+          :key="network"
+          :network="network"
+          :styled="true"
+          :label="false"
+          :title="`Public Watch Corrupt politician profile for ${politician.name}`"
+          hashtags="PublicWatch,CorruptPoliticians,Kenya"
+          user="philip46906"
+          class="rounded-full p-2 light:text-white"
+        />
+      </div>
     </div>
     <!-- Display corruption cases -->
     <div class="mx-auto flex justify-between px-4 lg:w-3/5">
       <h2 class="text-xl text-gray-500">
         Reported Graft Cases : <span class="text-white font-bold light:text-black">{{ corruption_cases.length > 0 ? corruption_cases.length : 0 }}</span>
       </h2>
-      <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="btn">
+      <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="text-sm btn">
         Report Graft
       </NuxtLink>
     </div>

@@ -1,5 +1,7 @@
 import axios from 'axios'
-import { backendUrl } from '~/constants'
+
+const config = useRuntimeConfig();
+const backendUrl = config.public.backendUrl
 
 interface Comment {
   case_id: string

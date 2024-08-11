@@ -78,28 +78,28 @@ function resetForm() {
 <template>
   <div class="mx-auto max-w-md text-justify space-y-4">
     <h1 class="text-center text-xl font-bold">
-      Add a Corruption Case to the Public Watch
+      Add a Corrupt Politician
     </h1>
     <p class="text-center light:text-gray-500">
       Your contribution helps us build a public database of corrupt politicians.
     </p>
     <div>
       <label for="name" class="block text-sm font-medium light:text-gray-700">Name</label>
-      <input id="name" v-model="name" placeholder="Enter name" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="name" v-model="name" placeholder="Enter name" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
 
     <div>
       <label for="photo_url" class="block text-sm font-medium light:text-gray-700">Photo URL</label>
-      <input id="photo_url" v-model="photo_url" placeholder="Enter photo url" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="photo_url" v-model="photo_url" placeholder="Enter photo url" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
 
     <div>
       <label for="office" class="block text-sm font-medium light:text-gray-700">Office</label>
-      <input id="office" v-model="office" placeholder="Enter office" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="office" v-model="office" placeholder="Enter office" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
     <div>
       <label for="county" class="block text-sm font-medium light:text-gray-700">County</label>
-      <select id="county" v-model="county" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm dark:text-gray-500 focus:outline-none focus:ring-green-500">
+      <select id="county" v-model="county" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm dark:text-gray-500 focus:outline-none focus:ring-green-500">
         <option value="" disabled>
           Select County
         </option>
@@ -111,7 +111,7 @@ function resetForm() {
 
     <div>
       <label for="political_party" class="block text-sm font-medium light:text-gray-700">Political Party</label>
-      <select id="political_party" v-model="political_party" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm dark:text-gray-500 focus:outline-none focus:ring-green-500">
+      <select id="political_party" v-model="political_party" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm dark:text-gray-500 focus:outline-none focus:ring-green-500">
         <option value="" disabled>
           Select Political Party
         </option>
@@ -123,10 +123,10 @@ function resetForm() {
 
     <div>
       <label for="source_website" class="block text-sm font-medium light:text-gray-700">Source Website/link</label>
-      <input id="source_website" v-model="source_website" placeholder="Enter graft case link" type="text" class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+      <input id="source_website" v-model="source_website" placeholder="Enter graft case link" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
     </div>
 
-    <button class="inline-flex items-center border border-transparent rounded-md bg-green-600 px-4 py-2 text-sm text-white font-medium shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500" @click.prevent="handleSubmit">
+    <button class="mt-4 w-full justify-center text-sm btn" @click.prevent="handleSubmit">
       Submit
     </button>
   </div>

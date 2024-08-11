@@ -12,6 +12,11 @@ export default defineNuxtConfig({
     '@stefanobartoletti/nuxt-social-share',
     'nuxt-snackbar',
   ],
+  runtimeConfig:{
+    public:{
+      backendUrl: 'http://127.0.0.1:8080'
+    }
+  },
   snackbar: {
     top: true,
     center: true,

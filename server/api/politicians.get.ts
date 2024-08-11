@@ -1,6 +1,9 @@
 import axios from 'axios'
-import { backendUrl } from '~/constants'
 import type { Politician } from '~/type'
+
+const config = useRuntimeConfig();
+
+const backendUrl = config.public.backendUrl
 
 async function fetchPoliticians() {
   try {

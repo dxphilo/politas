@@ -1,6 +1,8 @@
 import axios from 'axios'
 import { defineEventHandler, readBody } from 'h3'
-import { backendUrl } from '~/constants'
+
+const config = useRuntimeConfig();
+const backendUrl = config.public.backendUrl
 
 async function addCase(body: any) {
   try {

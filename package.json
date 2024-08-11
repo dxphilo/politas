@@ -14,7 +14,11 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.22",
+    "@tabler/icons-vue": "^3.12.0",
+    "@tiptap/pm": "^2.5.9",
     "axios": "^1.7.2",
+    "vue3-dropzone": "^2.2.1",
     "vue3-marquee": "^4.2.0"
   },
   "devDependencies": {
@@ -26,6 +30,26 @@
     "@nuxtjs/color-mode": "^3.4.1",
     "@pinia/nuxt": "^0.5.1",
     "@stefanobartoletti/nuxt-social-share": "^1.0.0",
+    "@tiptap/extension-blockquote": "^2.0.0-beta.209",
+    "@tiptap/extension-bubble-menu": "^2.0.0-beta.212",
+    "@tiptap/extension-character-count": "^2.0.0-beta.209",
+    "@tiptap/extension-dropcursor": "^2.0.0-beta.212",
+    "@tiptap/extension-gapcursor": "^2.0.0-beta.212",
+    "@tiptap/extension-hard-break": "^2.0.0-beta.209",
+    "@tiptap/extension-highlight": "^2.0.0-beta.209",
+    "@tiptap/extension-horizontal-rule": "^2.0.0-beta.209",
+    "@tiptap/extension-image": "^2.0.0-beta.209",
+    "@tiptap/extension-link": "^2.0.0-beta.209",
+    "@tiptap/extension-strike": "^2.0.0-beta.209",
+    "@tiptap/extension-table": "^2.0.0-beta.209",
+    "@tiptap/extension-table-cell": "^2.0.0-beta.209",
+    "@tiptap/extension-table-header": "^2.0.0-beta.209",
+    "@tiptap/extension-table-row": "^2.0.0-beta.209",
+    "@tiptap/extension-text-align": "^2.0.0-beta.209",
+    "@tiptap/extension-underline": "^2.0.0-beta.209",
+    "@tiptap/extension-youtube": "^2.0.0-beta.209",
+    "@tiptap/starter-kit": "^2.0.0-beta.209",
+    "@tiptap/vue-3": "^2.0.0-beta.209",
     "@unocss/eslint-config": "^0.60.0",
     "@unocss/nuxt": "^0.60.0",
     "@vite-pwa/nuxt": "^0.7.0",
@@ -36,6 +60,7 @@
     "nuxt": "^3.11.2",
     "nuxt-snackbar": "^1.1.1",
     "pinia": "^2.1.7",
+    "sass": "^1.77.8",
     "typescript": "^5.4.5",
     "vue-tsc": "^2.0.17"
   }
