@@ -1,5 +1,7 @@
 <script setup>
-import { backendUrl } from '../constants'
+const config = useRuntimeConfig();
+
+const backendUrl = config.public.backendUrl
 </script>
 
 <template>
