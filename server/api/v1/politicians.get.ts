@@ -16,6 +16,7 @@ async function fetchPoliticians() {
   }
   catch (error) {
     console.error(error)
+    throw new Error("error fetching politicians")
   }
 }
 

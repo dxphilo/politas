@@ -4,12 +4,12 @@ import { counties, kenyanPoliticalParties } from '../utils/utils'
 
 const snackbar = useSnackbar()
 
-const name = ref<string>('')
-const office = ref<string>('')
-const county = ref<string>('')
-const political_party = ref<string>('')
-const source_website = ref<string>('')
-const photo_url = ref<string>('')
+const name = ref<string>('William Ruto')
+const office = ref<string>('President')
+const county = ref<string>('Uasin Gishu')
+const political_party = ref<string>('Jubilee Party')
+const source_website = ref<string>('https://en.wikipedia.org/wiki/KPC_Ngong_Forest_land_scandal')
+const photo_url = ref<string>('https://kenyastockholm.com/wp-content/uploads/2015/08/william-ruto.jpg')
 
 function validateForm(): boolean {
   if (!name.value) {
@@ -44,7 +44,7 @@ async function handleSubmit() {
     return
   }
 
-  const { status } = await useFetch('/api/politicians', {
+  const { status, error } = await useFetch('/api/politicians', {
     method: 'POST',
     body: {
       name: name.value,
@@ -56,8 +56,8 @@ async function handleSubmit() {
     },
   })
 
-  if (status.value === 'success') {
-    snackbar.add({ title: 'Politician added successfully.', type: 'warning' })
+  if (!error.value) {
+    snackbar.add({ title: 'Politician added successfully.', type: 'success' })
     resetForm()
   }
   else {
