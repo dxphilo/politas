@@ -2,12 +2,6 @@
 import axios from 'axios'
 import { getParty, randomFallbackUrl } from '~/utils/utils'
 
-const { data } = await useFetch('/api/politicians')
-
-const config = useRuntimeConfig();
-
-const backendUrl = config.public.backendUrl
-
 interface CorruptionCase {
   id: number
   politician_id: number
@@ -22,15 +16,18 @@ interface CorruptionCase {
   updated_at: string
 }
 
+const { data } = await useFetch('/api/politicians')
+const config = useRuntimeConfig()
+const backendUrl = config.public.backendUrl
 const upvotedCases = ref<CorruptionCase[]>()
 
 onMounted(() => {
   mostUpvotedCases()
 })
 
-async function mostUpvotedCases() {
+async function mostUpvotedCases(): Promise<undefined> {
   try {
-    const response = await axios.get(`${backendUrl}/cases/ratings`)
+    const response = await axios.get(`${backendUrl}cases/ratings`)
     const data = response
     upvotedCases.value = data.data.data.Multiple
   }
@@ -66,7 +63,7 @@ async function mostUpvotedCases() {
     <div v-if="upvotedCases && upvotedCases.length > 0" class="flex flex-col gap-y-8">
       <div v-for="caseData in upvotedCases.slice(0, 4)" :key="caseData.id">
         <NuxtLink :to="`/reviews/${caseData.id}`" class="">
-          <div class="transform border border-gray-200 rounded-2xl p-6 text-justify transition hover:light:bg-gray-1">
+          <div class="transform border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
             <div class="flex justify-between">
               <div class="mb-1">
                 <p class="text-lg font-medium light:text-gray-700">

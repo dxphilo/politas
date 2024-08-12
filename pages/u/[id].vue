@@ -12,10 +12,10 @@ const { data } = await useFetch('/api/cases', {
   query: { id },
 })
 
-const { politician, corruption_cases } = data.value
+const { politician, corruption_cases } = data?.value
 
-const photoUrl = computed(() => {
-  return isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()
+const photoUrl = computed((): string => {
+  return isValidImageUrl(data.value.politician.photo_url) ? data.value.politician.photo_url : randomFallbackUrl()
 })
 
 definePageMeta({
@@ -27,7 +27,7 @@ definePageMeta({
   <div>
     <div class="">
       <div class="flex flex-col items-center">
-        <img :src="`${photoUrl}`" :alt="`${politician.name}`" class="h-24 w-24 rounded-full object-cover">
+        <img :src="photoUrl" :alt="`${politician.name}`" class="h-24 w-24 rounded-full object-cover">
         <div class="pt-4">
           <h2 class="text-xl font-bold">
             {{ politician.name }}
@@ -49,7 +49,7 @@ definePageMeta({
 
       <div class="my-3 flex flex-row justify-center gap-2">
         <SocialShare
-          v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp','reddit']"
+          v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'reddit']"
           :key="network"
           :network="network"
           :styled="true"
@@ -72,13 +72,13 @@ definePageMeta({
     </div>
     <div v-if="corruption_cases.length > 0">
       <div class="mx-auto mt-6 w-3/5 flex flex-wrap gap-6">
-        <NuxtLink v-for="caseItem in corruption_cases" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform overflow-hidden border border-gray-200 rounded-2xl p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
+        <NuxtLink v-for="caseItem in corruption_cases" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform overflow-hidden border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
           <h3 class="mb-2 text-xl font-medium">
             {{ caseItem.description }}
           </h3>
           <div class="flex items-center justify-between">
             <div class="flex items-center gap-2 pb-2">
-              <img :src="photoUrl" :alt="photoUrl" class="h-10 w-10 rounded-full bg-cover">
+              <img :src="photoUrl" alt="corrupt politician avatar" class="h-10 w-10 rounded-full bg-cover">
               <div class="flex flex-col text-justify">
                 <span class="font-medium">{{ politician.name }}</span>
                 <span class="text-xs text-gray-400 font-light">

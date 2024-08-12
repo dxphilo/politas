@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { defineEventHandler, readBody } from 'h3'
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
 
 async function addCase(body: any) {
   try {
-    const response = await axios.post(`${backendUrl}/corruption_cases`, body)
+    const response = await axios.post(`${backendUrl}corruption_cases`, body)
     if (response.status === 200) {
       return response.data
     }

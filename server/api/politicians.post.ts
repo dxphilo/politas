@@ -1,8 +1,7 @@
 import axios from 'axios'
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
-
 
 interface Politician {
   name: string
@@ -15,7 +14,7 @@ interface Politician {
 
 async function reportPolitician(body: Politician) {
   try {
-    const response = await axios.post(`${backendUrl}/politicians`, body)
+    const response = await axios.post(`${backendUrl}politicians`, body)
     if (response.status === 201 && response.data.success === true) {
       return response.data.data.Single
     }

@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
-
 
 async function fetchPoliticians() {
   try {
-    const response = await axios.get(`${backendUrl}/politicians`)
-    if (response.status === 200 && response.data.success === true) {
+    const response = await axios.get(`${backendUrl}politicians`)
+    if (response.status === 200) {
       return response.data.data.Multiple
     }
     else {
@@ -15,8 +14,8 @@ async function fetchPoliticians() {
     }
   }
   catch (error) {
-    console.error(error)
-    throw new Error("error fetching politicians")
+    console.error(`Error fetching politicians: ${error}`)
+    return error
   }
 }
 

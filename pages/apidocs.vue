@@ -1,5 +1,5 @@
 <script setup>
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 
 const backendUrl = config.public.backendUrl
 </script>

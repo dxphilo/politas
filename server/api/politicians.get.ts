@@ -1,14 +1,13 @@
 import axios from 'axios'
 import type { Politician } from '~/type'
 
-const config = useRuntimeConfig();
-
+const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
 
-async function fetchPoliticians() {
+async function fetchPoliticians(): Promise<Array<Politician> | undefined> {
   try {
-    const response = await axios.get(`${backendUrl}/politicians`)
-    if (response.status === 200 && response.data.success === true) {
+    const response = await axios.get(`${backendUrl}politicians`)
+    if (response.status === 200) {
       const data: Array<Politician> = response.data.data.Multiple
       return data
     }
@@ -17,7 +16,7 @@ async function fetchPoliticians() {
     }
   }
   catch (error) {
-    console.error(error)
+    throw new Error(`Error fetching politicians: ${error}`)
   }
 }
 

@@ -3,7 +3,7 @@ import axios from 'axios'
 import { formatDate, getRandomColor } from '../../utils/utils'
 
 const snackbar = useSnackbar()
-const config = useRuntimeConfig();
+const config = useRuntimeConfig()
 
 const route = useRoute()
 const id = ref<number>(0)
@@ -70,7 +70,7 @@ refresh()
     </p>
     <div v-if="isDataValid()">
       <!-- start main -->
-      <div class="mx-auto w-full transform border border-gray-200 rounded-2xl p-4 text-justify lg:w-3/5">
+      <div class="mx-auto w-full transform border border-gray-200 rounded-lg p-4 text-justify lg:w-3/5">
         <div class="flex flex-wrap justify-between">
           <div class="flex flex-col">
             <NuxtLink class="font-medium hover:underline" :to="`/u/${data.case.politician_id}`">

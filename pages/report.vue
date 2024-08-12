@@ -44,7 +44,7 @@ async function handleSubmit() {
     return
   }
 
-  const { status, error } = await useFetch('/api/politicians', {
+  const { error } = await useFetch('/api/politicians', {
     method: 'POST',
     body: {
       name: name.value,
