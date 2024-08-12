@@ -6,7 +6,7 @@ const backendUrl = config.public.backendUrl
 
 async function fetchPoliticians(): Promise<Array<Politician> | undefined> {
   try {
-    const response = await axios.get(`${backendUrl}politicians`)
+    const response = await axios.get(`${backendUrl}/politicians`)
     if (response.status === 200) {
       const data: Array<Politician> = response.data.data.Multiple
       return data

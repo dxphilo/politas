@@ -5,7 +5,7 @@ const backendUrl = config.public.backendUrl
 
 async function fetchReviews(case_id: number) {
   try {
-    const response = await axios.get(`${backendUrl}report/${case_id}`)
+    const response = await axios.get(`${backendUrl}/report/${case_id}`)
     if (response.status === 200) {
       return response.data
     }

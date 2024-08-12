@@ -4,12 +4,12 @@ import { counties, kenyanPoliticalParties } from '../utils/utils'
 
 const snackbar = useSnackbar()
 
-const name = ref<string>('William Ruto')
-const office = ref<string>('President')
-const county = ref<string>('Uasin Gishu')
-const political_party = ref<string>('Jubilee Party')
-const source_website = ref<string>('https://en.wikipedia.org/wiki/KPC_Ngong_Forest_land_scandal')
-const photo_url = ref<string>('https://kenyastockholm.com/wp-content/uploads/2015/08/william-ruto.jpg')
+const name = ref<string>('')
+const office = ref<string>('')
+const county = ref<string>('')
+const political_party = ref<string>('')
+const source_website = ref<string>('')
+const photo_url = ref<string>('')
 
 function validateForm(): boolean {
   if (!name.value) {

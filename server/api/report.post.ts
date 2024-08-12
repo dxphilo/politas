@@ -12,7 +12,7 @@ interface Comment {
 
 async function postReview(body: Comment) {
   try {
-    const response = await axios.post(`${backendUrl}report`, body)
+    const response = await axios.post(`${backendUrl}/report`, body)
     if (response.status === 201) {
       return response.data
     }
