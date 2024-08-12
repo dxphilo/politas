@@ -27,7 +27,7 @@ onMounted(() => {
 
 async function mostUpvotedCases(): Promise<undefined> {
   try {
-    const response = await axios.get(`${backendUrl}cases/ratings`)
+    const response = await axios.get(`${backendUrl}/cases/ratings`)
     const data = response
     upvotedCases.value = data.data.data.Multiple
   }
