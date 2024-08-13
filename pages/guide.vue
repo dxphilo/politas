@@ -3,6 +3,6 @@
 
 <template>
   <div>
-    <p>Graft Cases</p>
+    <p>Guide is coming soon!</p>
   </div>
 </template>

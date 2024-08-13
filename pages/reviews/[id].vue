@@ -15,6 +15,7 @@ const upvoted = ref<boolean>(false)
 const downvoted = ref<boolean>(false)
 const slice_to = ref<number>(3)
 const backendUrl = config.public.backendUrl
+const show_popup = ref<boolean>(false)
 
 const { data, refresh } = await useFetch('/api/report', {
   method: 'GET',
@@ -64,16 +65,21 @@ refresh()
 </script>
 
 <template>
-  <div>
+  <div v-if="data">
+    <div class="mx-auto w-full pb-4 text-justify lg:w-3/5">
+      <GoBack />
+    </div>
     <p class="pb-3 text-3xl">
-      {{ data.case.name }} Graft Comments
+      <NuxtLink class="hover:underline" :to="`/profile/${data.case.politician_id}`">
+        {{ data.case.name }}
+      </NuxtLink> Graft Comments
     </p>
     <div v-if="isDataValid()">
       <!-- start main -->
-      <div class="mx-auto w-full transform border border-gray-200 rounded-lg p-4 text-justify lg:w-3/5">
+      <div class="mx-auto w-full transform break-all border border-gray-200 rounded-lg p-4 text-justify lg:w-3/5">
         <div class="flex flex-wrap justify-between">
           <div class="flex flex-col">
-            <NuxtLink class="font-medium hover:underline" :to="`/u/${data.case.politician_id}`">
+            <NuxtLink class="font-medium hover:underline" :to="`/profile/${data.case.politician_id}`">
               {{ data.case.name }}
             </NuxtLink>
             <p class="pt-1 text-xs text-gray-400 font-light">
@@ -105,9 +111,9 @@ refresh()
               <span>👎</span>
               <span class="text-xs">{{ data.case.downvotes }}</span>
             </div>
-            <NuxtLink v-if="data.case.link" :to="`${data.case.link}`" class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2">
+            <button v-if="data.case.link" class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent="show_popup = !show_popup">
               <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="currentColor" d="M8.462 17.173q-2.273 0-3.867-1.565Q3 14.042 3 11.778Q3 9.517 4.595 7.94t3.867-1.575h8.73q1.587 0 2.698 1.092Q21 8.548 21 10.135t-1.11 2.678q-1.111 1.09-2.698 1.09H8.923q-.88 0-1.517-.614t-.637-1.498t.627-1.52t1.527-.636h8.308v1H8.923q-.479 0-.816.327t-.338.807t.338.807t.816.328h8.289q1.165-.006 1.977-.802T20 10.135q0-1.163-.821-1.966t-1.987-.803h-8.73Q6.608 7.36 5.304 8.648T4 11.786q0 1.823 1.305 3.1t3.157 1.287h8.769v1z" /></svg>
-            </NuxtLink>
+            </button>
           </div>
 
           <div class="flex flex-row gap-2">
@@ -120,7 +126,7 @@ refresh()
               :title="`${data.case.title}`"
               hashtags="PublicWatch,CorruptPoliticians,Kenya"
               user="philip46906"
-              class="rounded-full p-2 light:text-white"
+              class="rounded-full p-1.9 light:text-white"
             />
           </div>
         </div>
@@ -136,7 +142,7 @@ refresh()
         <div>
           <Comment :id="id" :title="data.case.title" @refresh-comments="refresh()" />
         </div>
-        <div v-for="review in data.reviews.slice(0, slice_to)" :key="review.id" class="mb-6 w-full flex items-start gap-2.5 overflow-hidden border border-gray-200 rounded-lg p-3 dark:border-gray-600 dark:bg-gray-700">
+        <div v-for="review in data.reviews.slice(0, slice_to)" :key="review.id" class="mb-6 w-full flex items-start gap-2.5 break-all border border-gray-200 rounded-lg p-3 dark:border-gray-600 dark:bg-gray-700">
           <div>
             <div class="my-2 flex gap-3">
               <p :style="{ backgroundColor: getRandomColor() }" class="h-8 w-8 border border-gray-50 rounded-full" />
@@ -173,4 +179,15 @@ refresh()
       </NuxtLink>
     </div>
   </div>
+  <!-- loader -->
+  <div v-else class="h-90 flex justify-center text-center">
+    <div class="py-30">
+      <IconsLoading class="h-10 w-10" />
+    </div>
+  </div>
+  <Teleport to="body">
+    <div v-if="show_popup" class="modal">
+      <LinkPopup :link="data.case.link" @toggle="show_popup = !show_popup" />
+    </div>
+  </Teleport>
 </template>

@@ -51,7 +51,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: false,
       routes: ['/'],
-      ignore: ['/u'],
+      ignore: ['/profile'],
     },
   },
 

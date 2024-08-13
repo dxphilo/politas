@@ -38,16 +38,19 @@ async function mostUpvotedCases(): Promise<undefined> {
 </script>
 
 <template>
-  <div>
-    <h1 class="text-2xl font-bold">
-      Public Database to track Politicians charged with Corruption
+  <div class="h-70 flex flex-col items-center justify-center gap-y-4">
+    <h1 class="text-2xl font-bold lg:text-5xl">
+      Report Corrupt Politicians
     </h1>
+    <p class="mx-auto w-full pt-2 text-base lg:w-2/5">
+      Our mission is to create a public database of corrupt politicians, sourced to ensure accuracy. We aim to hold politicians accountable for every action taken while in office.
+    </p>
   </div>
   <h1 class="py-10 header1">
     Newly Reported
   </h1>
   <div class="mx-auto lg:w-3/5">
-    <Vue3Marquee>
+    <Vue3Marquee v-if="data?.politicians">
       <div v-for="politician in data?.politicians" :key="politician.politician_id" class="px-3">
         <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-42 w-42 border-2 border-gray-4 rounded-full bg-cover">
         <p class="pt-4 text-lg">
@@ -55,6 +58,11 @@ async function mostUpvotedCases(): Promise<undefined> {
         </p>
       </div>
     </Vue3Marquee>
+    <div v-else class="mx-auto flex justify-center lg:w-3/5">
+      <div v-for="n in 4" :key="n" class="px-3">
+        <div class="h-42 w-42 animate-pulse rounded-full bg-gray-200" />
+      </div>
+    </div>
   </div>
   <h1 class="py-6 header1">
     Highest Upvoted Graft Cases
@@ -63,7 +71,7 @@ async function mostUpvotedCases(): Promise<undefined> {
     <div v-if="upvotedCases && upvotedCases.length > 0" class="flex flex-col gap-y-8">
       <div v-for="caseData in upvotedCases.slice(0, 4)" :key="caseData.id">
         <NuxtLink :to="`/reviews/${caseData.id}`" class="">
-          <div class="transform border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
+          <div class="transform break-all border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
             <div class="flex justify-between">
               <div class="mb-1">
                 <p class="text-lg font-medium light:text-gray-700">
@@ -107,12 +115,37 @@ async function mostUpvotedCases(): Promise<undefined> {
         </NuxtLink>
       </div>
     </div>
+    <div v-else>
+      <div class="flex flex-col gap-y-8">
+        <div v-for="n in 4" :key="n">
+          <div class="transform animate-pulse border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
+            <div class="mb-1 h-6 flex justify-between">
+              <div class="w-1/2 rounded-full bg-gray-200" />
+              <div class="w-1/3 rounded-full bg-gray-200" />
+            </div>
+            <div class="mb-2 h-6 rounded-full bg-gray-200" />
+            <div class="mb-2 h-4 rounded-full bg-gray-200" />
+            <div class="mb-2 h-4 rounded-full bg-gray-200" />
+            <div class="mt-4 flex space-x-4">
+              <div class="flex animate-pulse items-center gap-x-1 border border-gray-200 rounded-full bg-gray-200 px-2 py-1 text-xs">
+                <span class="h-2 w-2 rounded-full bg-gray-300" />
+                <span class="h-2 w-4 rounded-full bg-gray-300" />
+              </div>
+              <div class="flex animate-pulse items-center gap-x-1 border border-gray-200 rounded-full bg-gray-200 px-2 py-1 text-xs">
+                <span class="h-2 w-2 rounded-full bg-gray-300" />
+                <span class="h-2 w-4 rounded-full bg-gray-300" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <h1 class="py-10 header1">
     Reported Graft Cases
   </h1>
-  <div class="mx-auto w-3/5 flex flex-wrap gap-6">
-    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/u/${politician.politician_id}`" class="w-280px transform overflow-hidden border border-gray-200 rounded-lg pb-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
+  <div v-if="data" class="mx-auto w-3/5 flex flex-wrap gap-8">
+    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px transform overflow-hidden border border-gray-200 rounded-lg pb-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
       <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="object-fit h-42 w-full bg-cover">
       <div class="p-4">
         <h5 class="text-xl font-bold">
@@ -129,5 +162,18 @@ async function mostUpvotedCases(): Promise<undefined> {
         </p>
       </div>
     </NuxtLink>
+  </div>
+  <div v-else class="mx-auto w-3/5 flex flex-wrap gap-6">
+    <div v-for="n in 6" :key="n">
+      <div class="w-280px transform animate-pulse overflow-hidden border border-gray-200 rounded-lg pb-6 transition ease-linear">
+        <div class="h-42 w-full rounded-lg bg-gray-200" />
+        <div class="p-4">
+          <div class="mb-2 h-6 w-full rounded-full bg-gray-200" />
+          <div class="mb-2 h-4 w-3/4 rounded-full bg-gray-200" />
+          <div class="mb-2 h-4 w-2/3 rounded-full bg-gray-200" />
+          <div class="mb-2 h-4 w-1/2 rounded-full bg-gray-200" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>

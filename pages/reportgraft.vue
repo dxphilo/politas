@@ -123,7 +123,7 @@ async function submitForm() {
         </select>
       </div>
 
-      <button type="submit" class="w-full flex justify-center btn" @click.prevent="submitForm()">
+      <button type="submit" class="w-full flex justify-center btn" @click.once.prevent="submitForm()">
         Submit
       </button>
     </form>

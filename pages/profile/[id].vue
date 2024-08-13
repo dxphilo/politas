@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import GoBack from '../../components/GoBack.vue'
 import { formatDate, getParty, isValidImageUrl } from '~/utils/utils'
 
 const route = useRoute()
@@ -25,44 +26,44 @@ definePageMeta({
 
 <template>
   <div>
-    <div class="">
-      <div class="flex flex-col items-center">
-        <img :src="photoUrl" :alt="`${politician.name}`" class="h-24 w-24 rounded-full object-cover">
-        <div class="pt-4">
-          <h2 class="text-xl font-bold">
-            {{ politician.name }}
-          </h2>
-          <p class="text-xl text-gray-500">
-            {{ politician.office }}
-          </p>
+    <div class="mx-auto my-4 w-full border-b-1.5 border-gray-4 pb-10 lg:w-3/5">
+      <div class="mx-auto w-full">
+        <div class="mx-auto w-full flex justify-around lg:w-3/5 lg:justify-between">
+          <img :src="photoUrl" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full object-cover">
+          <div class="text-justify">
+            <h2 class="text-xl font-bold">
+              {{ politician.name }}
+            </h2>
+            <p class="text-sm text-gray-500">
+              {{ politician.office }}
+            </p>
+            <p class="flex flex-row items-center gap-x-2 text-sm text-gray-500">
+              <Location />
+              County: {{ politician.county }}
+            </p>
+            <p class="flex flex-row items-center gap-x-2 text-sm text-gray-500">
+              <PoliticalParty />
+              Party: {{ getParty(politician.political_party) }}
+            </p>
+            <div class="flex flex-row justify-center gap-2 pt-2">
+              <SocialShare
+                v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'reddit']"
+                :key="network"
+                :network="network"
+                :styled="true"
+                :label="false"
+                :title="`Public Watch Corrupt politician profile for ${politician.name}`"
+                hashtags="PublicWatch,CorruptPoliticians,Kenya"
+                user="philip46906"
+                class="rounded-full p-2 light:text-white"
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="mb-2">
-        <p class="text-gray-500">
-          County: {{ politician.county }}
-        </p>
-        <p class="text-gray-500">
-          Party: {{ getParty(politician.political_party) }}
-        </p>
-      </div>
-      <!-- social share profile of policticians -->
-
-      <div class="my-3 flex flex-row justify-center gap-2">
-        <SocialShare
-          v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'reddit']"
-          :key="network"
-          :network="network"
-          :styled="true"
-          :label="false"
-          :title="`Public Watch Corrupt politician profile for ${politician.name}`"
-          hashtags="PublicWatch,CorruptPoliticians,Kenya"
-          user="philip46906"
-          class="rounded-full p-2 light:text-white"
-        />
       </div>
     </div>
     <!-- Display corruption cases -->
-    <div class="mx-auto flex justify-between px-4 lg:w-3/5">
+    <div class="mx-auto flex justify-between lg:w-3/5">
       <h2 class="text-xl text-gray-500">
         Reported Graft Cases : <span class="text-white font-bold light:text-black">{{ corruption_cases.length > 0 ? corruption_cases.length : 0 }}</span>
       </h2>
@@ -72,7 +73,7 @@ definePageMeta({
     </div>
     <div v-if="corruption_cases.length > 0">
       <div class="mx-auto mt-6 w-3/5 flex flex-wrap gap-6">
-        <NuxtLink v-for="caseItem in corruption_cases" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform overflow-hidden border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
+        <NuxtLink v-for="caseItem in corruption_cases" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform break-all border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
           <h3 class="mb-2 text-xl font-medium">
             {{ caseItem.description }}
           </h3>
@@ -118,17 +119,12 @@ definePageMeta({
       <p class="py-6 text-lg text-gray-400">
         No reported Graft Cases, Do you want to add your report?
       </p>
-      <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="btn">
-        Report Graft
-      </NuxtLink>
-    </div>
-    <div>
-      <NuxtLink
-        class="m-3 text-sm btn"
-        to="/"
-      >
-        Back
-      </NuxtLink>
+      <div class="flex justify-center gap-x-4">
+        <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="btn">
+          Report Graft
+        </NuxtLink>
+        <GoBack />
+      </div>
     </div>
   </div>
 </template>
