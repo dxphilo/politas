@@ -1,11 +1,11 @@
 <script setup>
-const props = defineProps({
+defineProps({
   link: String,
 })
 
 defineEmits(['toggle'])
+
 function gotoUrl() {
-  console.log('Goto URL...')
   window.location.href = this.props.link
 }
 </script>

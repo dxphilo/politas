@@ -59,9 +59,7 @@ async function mostUpvotedCases(): Promise<undefined> {
       </div>
     </Vue3Marquee>
     <div v-else class="mx-auto flex justify-center lg:w-3/5">
-      <div v-for="n in 4" :key="n" class="px-3">
-        <div class="h-42 w-42 animate-pulse rounded-full bg-gray-200" />
-      </div>
+      <SkeletonSliderCard v-for="n in 4" :key="n" class="px-3" />
     </div>
   </div>
   <h1 class="py-6 header1">
@@ -117,36 +115,16 @@ async function mostUpvotedCases(): Promise<undefined> {
     </div>
     <div v-else>
       <div class="flex flex-col gap-y-8">
-        <div v-for="n in 4" :key="n">
-          <div class="transform animate-pulse border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
-            <div class="mb-1 h-6 flex justify-between">
-              <div class="w-1/2 rounded-full bg-gray-200" />
-              <div class="w-1/3 rounded-full bg-gray-200" />
-            </div>
-            <div class="mb-2 h-6 rounded-full bg-gray-200" />
-            <div class="mb-2 h-4 rounded-full bg-gray-200" />
-            <div class="mb-2 h-4 rounded-full bg-gray-200" />
-            <div class="mt-4 flex space-x-4">
-              <div class="flex animate-pulse items-center gap-x-1 border border-gray-200 rounded-full bg-gray-200 px-2 py-1 text-xs">
-                <span class="h-2 w-2 rounded-full bg-gray-300" />
-                <span class="h-2 w-4 rounded-full bg-gray-300" />
-              </div>
-              <div class="flex animate-pulse items-center gap-x-1 border border-gray-200 rounded-full bg-gray-200 px-2 py-1 text-xs">
-                <span class="h-2 w-2 rounded-full bg-gray-300" />
-                <span class="h-2 w-4 rounded-full bg-gray-300" />
-              </div>
-            </div>
-          </div>
-        </div>
+        <SkeletonCaseLoader v-for="n in 4" :key="n" />
       </div>
     </div>
   </div>
   <h1 class="py-10 header1">
-    Reported Graft Cases
+    Reported Politicians
   </h1>
-  <div v-if="data" class="mx-auto w-3/5 flex flex-wrap gap-8">
-    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px transform overflow-hidden border border-gray-200 rounded-lg pb-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
-      <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="object-fit h-42 w-full bg-cover">
+  <div v-if="data" class="mx-auto w-3/5 flex flex-wrap lg:gap-6">
+    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
+      <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full bg-cover">
       <div class="p-4">
         <h5 class="text-xl font-bold">
           {{ politician.name }}
@@ -164,16 +142,6 @@ async function mostUpvotedCases(): Promise<undefined> {
     </NuxtLink>
   </div>
   <div v-else class="mx-auto w-3/5 flex flex-wrap gap-6">
-    <div v-for="n in 6" :key="n">
-      <div class="w-280px transform animate-pulse overflow-hidden border border-gray-200 rounded-lg pb-6 transition ease-linear">
-        <div class="h-42 w-full rounded-lg bg-gray-200" />
-        <div class="p-4">
-          <div class="mb-2 h-6 w-full rounded-full bg-gray-200" />
-          <div class="mb-2 h-4 w-3/4 rounded-full bg-gray-200" />
-          <div class="mb-2 h-4 w-2/3 rounded-full bg-gray-200" />
-          <div class="mb-2 h-4 w-1/2 rounded-full bg-gray-200" />
-        </div>
-      </div>
-    </div>
+    <SkeletonPoliticianCard v-for="n in 6" :key="n" />
   </div>
 </template>
