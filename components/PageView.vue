@@ -125,7 +125,7 @@ async function mostUpvotedCases(): Promise<undefined> {
     Reported Politicians
   </h1>
   <div v-if="data" class="mx-auto w-3/5 flex flex-wrap lg:gap-6">
-    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
+    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:bg-gray-1 hover:dark:bg-gray-5">
       <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full bg-cover">
       <div class="p-4">
         <h5 class="text-xl font-bold">
