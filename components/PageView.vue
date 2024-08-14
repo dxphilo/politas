@@ -58,8 +58,10 @@ async function mostUpvotedCases(): Promise<undefined> {
         </p>
       </div>
     </Vue3Marquee>
-    <div v-else class="mx-auto flex justify-center lg:w-3/5">
-      <SkeletonSliderCard v-for="n in 4" :key="n" class="px-3" />
+    <div v-else class="mx-auto flex justify-between gap-x-3 lg:w-3/5">
+      <div v-for="n in 4" :key="n" class="px-3">
+        <SkeletonSliderCard />
+      </div>
     </div>
   </div>
   <h1 class="py-6 header1">
