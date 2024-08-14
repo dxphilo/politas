@@ -47,7 +47,7 @@ async function submitForm() {
     const response = await axios.post('/api/cases', {
       politician_id: Number(politician_id.value),
       name: name.value,
-      case_description: case_description.value.substring(0, 500), // timming to 500 chars as of now but we can adjuts this later
+      case_description: case_description.value.trim().substring(0, 1000), // 1000 chars
       case_date: case_date.value,
       legal_outcome: legal_outcome.value,
       title: title.value.substring(0, 255),
