@@ -33,10 +33,10 @@ async function handleUpvote(case_id: number) {
     const responce = await axios.post(`${backendUrl}/case/upvote/${case_id}`)
     const { status } = responce
     if (status === 201) {
+      refresh()
       snackbar.add({ text: 'You have upvoted this case, thank you!', type: 'success' })
+      upvoted.value = !upvoted.value
     }
-    upvoted.value = !upvoted.value
-    refresh()
   }
   catch (error) {
     console.error(`Error updating vote: ${error}`)
@@ -53,9 +53,9 @@ async function handleDownvote(case_id: number) {
     const { status } = responce
     if (status === 201) {
       snackbar.add({ text: 'You have downvoted this case, thank you!', type: 'success' })
+      downvoted.value = !downvoted.value
+      refresh()
     }
-    downvoted.value = !downvoted.value
-    refresh()
   }
   catch (error) {
     console.error(`Error updating vote: ${error}`)
@@ -102,19 +102,17 @@ refresh()
           <p class="py-2 text-base font-light light:text-slate-5">
             {{ data.case.case_description }}
           </p>
+          <a v-if="data.case.link" :href="`${data.case.link}`" class="underline">Reference link</a>
           <div class="flex justify-between gap-x-2">
             <div class="flex items-center gap-4" style="z-index: 999;">
-              <div :class="upvoted ? 'text-green border-green' : '' " class="flex cursor-pointer items-center gap-1 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent.once="handleUpvote(data.case.id)">
+              <div :class="upvoted ? 'text-green border-green' : '' " class="flex cursor-pointer items-center gap-1 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.once.prevent="handleUpvote(data.case.id)">
                 <span>👍</span>
                 <span class="text-xs">{{ data.case.upvotes }}</span>
               </div>
-              <div :class="downvoted ? 'text-[#FF0000] border-[#FF0000]' : '' " class="flex cursor-pointer items-center gap-1 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent.once="handleDownvote(data.case.id)">
+              <div :class="downvoted ? 'text-[#FF0000] border-[#FF0000]' : '' " class="flex cursor-pointer items-center gap-1 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.once.prevent="handleDownvote(data.case.id)">
                 <span>👎</span>
                 <span class="text-xs">{{ data.case.downvotes }}</span>
               </div>
-              <button v-if="data.case.link" class="flex cursor-pointer items-center gap-2 border rounded-full px-2 py-1 text-center hover:bg-gray-2" @click.prevent="show_popup = !show_popup">
-                <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24"><path fill="currentColor" d="M8.462 17.173q-2.273 0-3.867-1.565Q3 14.042 3 11.778Q3 9.517 4.595 7.94t3.867-1.575h8.73q1.587 0 2.698 1.092Q21 8.548 21 10.135t-1.11 2.678q-1.111 1.09-2.698 1.09H8.923q-.88 0-1.517-.614t-.637-1.498t.627-1.52t1.527-.636h8.308v1H8.923q-.479 0-.816.327t-.338.807t.338.807t.816.328h8.289q1.165-.006 1.977-.802T20 10.135q0-1.163-.821-1.966t-1.987-.803h-8.73Q6.608 7.36 5.304 8.648T4 11.786q0 1.823 1.305 3.1t3.157 1.287h8.769v1z" /></svg>
-              </button>
             </div>
 
             <div class="flex flex-row gap-2">
@@ -188,7 +186,7 @@ refresh()
     </div>
     <Teleport to="body">
       <div v-if="show_popup" class="modal">
-        <LinkPopup :link="data.case.link" @toggle="show_popup = !show_popup" />
+        <PopupsLinkPopup :link="data.case.link" @toggle="show_popup = !show_popup" />
       </div>
     </Teleport>
   </div>

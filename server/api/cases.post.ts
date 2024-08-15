@@ -1,33 +1,55 @@
 import axios from 'axios'
 import { defineEventHandler, readBody } from 'h3'
+import { isNetworkError } from '~/utils/utils'
 
 const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
 
-async function addCase(body: any) {
+interface CorruptionCase {
+  politician_id: number
+  name: string
+  case_date: string
+  case_description: string
+  legal_outcome?: string
+  link?: string
+  title: string
+}
+
+async function addCase(body: CorruptionCase, retries = 3) {
   try {
     const response = await axios.post(`${backendUrl}/corruption_cases`, body)
     if (response.status === 200) {
       return response.data
     }
-    else {
-      console.error(`Error creating case: ${response.statusText}`)
-      throw new Error(`Error creating case: ${response.statusText}`)
-    }
+    throw createError({
+      statusCode: 400,
+      statusMessage: `Error creating case: ${response.statusText}`,
+    })
   }
   catch (error) {
-    console.error(`Error creating case: ${error}`)
-    throw error
+    if (isNetworkError(error)) {
+      if (retries > 1) {
+        console.warn(`Network error creating case. Retrying... (Attempts left: ${retries - 1})`)
+        return await addCase(body, retries - 1)
+      }
+      else {
+        throw createError({
+          statusCode: 400,
+          statusMessage: `Network error creating case after ${retries} retries.`,
+        })
+      }
+    }
+    else {
+      throw createError({
+        statusCode: 500,
+        statusMessage: `${error}`,
+      })
+    }
   }
 }
 
 export default defineEventHandler(async (event) => {
   const body = await readBody(event)
-  try {
-    const response = await addCase(body)
-    return response
-  }
-  catch (error) {
-    console.error(`Error adding case: ${error}`)
-  }
+  const response = await addCase(body)
+  return response
 })

@@ -20,7 +20,7 @@ function checkValues() {
     submitCase()
   }
   else {
-    snackbar.add({ text: 'Please fill in all fields', type: 'warning' })
+    snackbar.add({ text: 'Please write a comment!', type: 'warning' })
   }
 }
 async function submitCase() {
@@ -56,7 +56,7 @@ async function submitCase() {
         <textarea id="comment" v-model="review_text" rows="4" class="w-full border-0 bg-white px-0 text-sm text-gray-900 dark:bg-gray-800 dark:text-white focus:ring-0 dark:placeholder-gray-400" placeholder="Write a comment..." required />
       </div>
       <div class="flex items-center justify-between border-t px-3 py-2 dark:border-gray-600">
-        <button type="submit" class="inline-flex items-center rounded-lg bg-green-700 px-4 py-2.5 text-center text-xs text-white font-medium hover:bg-green-800 focus:ring-4 focus:ring-green-200 dark:focus:ring-green-900" @click.once.prevent="checkValues()">
+        <button type="submit" class="inline-flex items-center rounded-lg bg-green-700 px-4 py-2.5 text-center text-xs text-white font-medium hover:bg-green-800 focus:ring-4 focus:ring-green-200 dark:focus:ring-green-900" @click.prevent="checkValues()">
           Post comment
         </button>
         <div class="flex ps-0 space-x-1 sm:ps-2 rtl:space-x-reverse">

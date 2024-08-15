@@ -15,7 +15,7 @@ interface Politician {
 async function reportPolitician(body: Politician) {
   try {
     const response = await axios.post(`${backendUrl}/politicians`, body)
-    if (response.status === 201 && response.data.success === true) {
+    if (response.status === 201) {
       return response.data.data.Single
     }
     else {

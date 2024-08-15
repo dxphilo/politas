@@ -115,74 +115,6 @@ export default function readingTime(content: any) {
   return minutes
 }
 
-export const counties = [
-  'Kilifi',
-  'Mombasa',
-  'Kwale',
-  'Tana River',
-  'Lamu',
-  'Taita Taveta',
-  'Garissa',
-  'Wajir',
-  'Mandera',
-  'Marsabit',
-  'Isiolo',
-  'Meru',
-  'Embu',
-  'Tharaka Nithi',
-  'Laikipia',
-  'Nyandarua',
-  'Nyeri',
-  'Kirinyaga',
-  'Muranga',
-  'Machakos',
-  'Nakuru',
-  'Narok',
-  'Kajiado',
-  'West Pokot',
-  'Samburu',
-  'Trans Nzoia',
-  'Uasin Gishu',
-  'Elgeyo Marakwet',
-  'Nandi',
-  'Bomet',
-  'Kericho',
-  'Baringo',
-  'Vihiga',
-  'Bungoma',
-  'Kakamega',
-  'Kisumu',
-  'Siaya',
-  'HomaBay',
-  'Migori',
-  'Kisii',
-  'Nyamira',
-  'Trans Mara',
-  'Narok South',
-  'Kwale North',
-  'Nairobi',
-]
-
-export const kenyanPoliticalParties = [
-  { name: 'Kenya African National Union', acronym: 'KANU' },
-  { name: 'Kenya African Democratic Union', acronym: 'KADU' },
-  { name: 'Kenya People\'s Union', acronym: 'KPU' },
-  { name: 'National Rainbow Coalition', acronym: 'NARC' },
-  { name: 'Orange Democratic Movement', acronym: 'ODM' },
-  { name: 'Party of National Unity', acronym: 'PNU' },
-  { name: 'Jubilee Party', acronym: 'JP' },
-  { name: 'United Democratic Alliance', acronym: 'UDA' },
-  { name: 'Ford-Kenya', acronym: 'FK' },
-  { name: 'Ford-People', acronym: 'FP' },
-  { name: 'Social Democratic Party', acronym: 'SDP' },
-  { name: 'Amani National Congress', acronym: 'ANC' },
-]
-
-export function getParty(party_acronym: string) {
-  const foundParty = kenyanPoliticalParties.find(party => party.acronym === party_acronym)
-  return foundParty?.name || 'Unknown'
-}
-
 export const fallbackUrls = [
   'https://img.freepik.com/premium-photo/faces-betrayal-capturing-essence-corruption-through-lens-truth_1143425-3869.jpg',
   'https://www.shutterstock.com/image-vector/corrupt-politician-pig-face-600nw-2204328455.jpg',
@@ -252,3 +184,12 @@ export const socialMediaShare = [
   'line',
   'email',
 ]
+
+// Helper function to identify network errors (you can customize this logic)
+export function isNetworkError(error: any): boolean {
+  return (
+    error.code === 'ECONNREFUSED' // Connection refused
+    || error.code === 'ETIMEOUT' // Timeout
+    || error.message.includes('Network') // Generic network error message check
+  )
+}

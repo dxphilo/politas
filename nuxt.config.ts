@@ -21,6 +21,8 @@ export default defineNuxtConfig({
     top: true,
     center: true,
     duration: 5000,
+    groups: false,
+    limit: 2,
   },
   socialShare: {
     baseUrl: host, // required!
@@ -33,7 +35,17 @@ export default defineNuxtConfig({
     renderJsonPayloads: true,
     typedPages: true,
   },
-
+  routeRules: {
+    // Generated at build time for SEO purpose
+    '/': { prerender: true },
+    // Cached for 1 hour
+    // '/api/*': { cache: { maxAge: 60 * 60 } },
+    // Redirection to avoid 404
+    '/old-page': {
+      redirect: { to: '/new-page', statusCode: 302 },
+    },
+    // ...
+  },
   css: [
     '@unocss/reset/tailwind.css',
   ],

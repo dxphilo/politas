@@ -56,6 +56,7 @@ const backendUrl = 'https://publicwatchke.vercel.app'
           "created_at": "2023-11-28T12:34:56",
           "updated_at": "2023-12-01T15:22:33"
         },
+        ...
 ]
     </pre>
 
@@ -73,18 +74,20 @@ const backendUrl = 'https://publicwatchke.vercel.app'
         "data": {
           "Multiple": [
             {
-              "politician_id": 2,
-              "name": "William Ruto",
-              "office": "President",
-              "county": "Uasin Gishu",
-              "political_party": "JP",
-              "source_website": "https://en.wikipedia.org/wiki/KPC_Ngong_Forest_land_scandal",
-              "photo_url": "https://kenyastockholm.com/wp-content/uploads/2015/08/william-ruto.jpg",
-              "created_at": "2024-08-12T16:29:12.766842",
-              "updated_at": "2024-08-12T16:29:12.766842"
+              "politician_id": 1,
+              "name": "Kipchumba Murkomen",
+              "office": "Governor",
+              "county": "Nandi",
+              "political_party": "Kenya Kwanza",
+              "source_website": "https://www.standardmedia.co.ke/health/nairobi/article/2001478477/murkomen-corrupt-to-the-core-official-left-ministry-in-may",
+              "photo_url": "https://www.ghanamma.com/ke/wp-content/uploads/2022/09/87a95934262148218b7fec4d51bc0154.jpeg",
+              "created_at": "2024-08-14T21:12:01.635052",
+              "updated_at": "2024-08-14T21:12:01.635052",
+              "year_of_birth": 1938,
+              "sex": "male"
             },
             ...
-            }]
+            ]
     </pre>
 
       <h2 class="my-4 text-2xl font-bold">

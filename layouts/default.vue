@@ -18,9 +18,8 @@ function toggle_shown() {
         </button>
       </div>
     </div>
-    <Header class="py-10" />
+    <Header />
     <slot />
-    <NuxtSnackbar />
     <Footer />
     <div class="mx-auto mt-5 text-center text-sm opacity-25" />
   </main>

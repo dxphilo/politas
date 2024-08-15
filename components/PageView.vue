@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios'
-import { getParty, randomFallbackUrl } from '~/utils/utils'
+import { randomFallbackUrl } from '~/utils/utils'
 
 interface CorruptionCase {
   id: number
@@ -38,39 +38,54 @@ async function mostUpvotedCases(): Promise<undefined> {
 </script>
 
 <template>
-  <div class="h-70 flex flex-col items-center justify-center gap-y-4">
+  <div class="h-80 flex flex-col items-center justify-center gap-y-6">
     <h1 class="text-2xl font-bold lg:text-5xl">
       Report Corrupt Politicians
     </h1>
-    <p class="mx-auto w-full pt-2 text-base lg:w-2/5">
+    <p class="mx-auto w-full pt-2 text-base text-gray-500 lg:w-2/5">
       Our mission is to create a public database of corrupt politicians, sourced to ensure accuracy. We aim to hold politicians accountable for every action taken while in office.
     </p>
+    <NuxtLink to="/report" class="flex gap-x-2 btn">
+      <IconsJudgeHummer />
+      Report Graft
+    </NuxtLink>
   </div>
-  <h1 class="py-10 header1">
-    Newly Reported
-  </h1>
-  <div class="mx-auto lg:w-3/5">
-    <Vue3Marquee v-if="data?.politicians">
-      <div v-for="politician in data?.politicians" :key="politician.politician_id" class="px-3">
-        <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-42 w-42 border-2 border-gray-4 rounded-full bg-cover">
-        <p class="pt-4 text-lg">
-          {{ politician.name }}
-        </p>
-      </div>
-    </Vue3Marquee>
-    <div v-else class="mx-auto flex justify-between gap-x-3 lg:w-3/5">
-      <div v-for="n in 4" :key="n" class="px-3">
-        <SkeletonSliderCard />
+  <div class="py-10">
+    <h1 class="header1">
+      Newly Reported
+    </h1>
+    <p class="py-3 text-base text-gray-500">
+      Newly reported politicians
+    </p>
+    <div class="mx-auto mb-6 pt-6 lg:w-3/5">
+      <Vue3Marquee v-if="data?.politicians">
+        <div v-for="politician in data?.politicians.slice(0, 10)" :key="politician.politician_id" class="px-3">
+          <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-42 w-42 border-2 border-gray-4 rounded-full bg-cover">
+          <p class="pt-4 text-lg">
+            {{ politician.name }}
+          </p>
+        </div>
+      </Vue3Marquee>
+      <div v-else class="mx-auto flex justify-between gap-x-3 lg:w-3/5">
+        <div v-for="n in 4" :key="n" class="px-3">
+          <SkeletonSliderCard />
+        </div>
       </div>
     </div>
   </div>
-  <h1 class="py-6 header1">
-    Highest Upvoted Graft Cases
-  </h1>
+
+  <div class="py-6">
+    <h1 class="header1">
+      Highest Upvoted Graft Cases
+    </h1>
+    <p class="py-3 text-base text-gray-500">
+      Reported graft cases with highest upvotes
+    </p>
+  </div>
   <div class="mx-auto lg:w-3/5">
     <div v-if="upvotedCases && upvotedCases.length > 0" class="flex flex-col gap-y-8">
       <div v-for="caseData in upvotedCases.slice(0, 4)" :key="caseData.id">
-        <NuxtLink :to="`/reviews/${caseData.id}`" class="">
+        <NuxtLink :to="`/reviews/${caseData.id}`">
           <div class="transform break-all border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
             <div class="flex justify-between">
               <div class="mb-1">
@@ -121,9 +136,12 @@ async function mostUpvotedCases(): Promise<undefined> {
       </div>
     </div>
   </div>
-  <h1 class="py-10 header1">
-    Reported Politicians
-  </h1>
+  <div>
+    <h1 class="py-10 header1">
+      Reported Politicians
+    </h1>
+    <p>Reported graft cases with highest upvotes</p>
+  </div>
   <div v-if="data" class="mx-auto w-3/5 flex flex-wrap lg:gap-6">
     <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:bg-gray-1 hover:dark:bg-gray-5">
       <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full bg-cover">
@@ -138,7 +156,7 @@ async function mostUpvotedCases(): Promise<undefined> {
           County: {{ politician.county }}
         </p>
         <p class="">
-          Party: {{ getParty(politician.political_party!) }}
+          Party: {{ politician.political_party }}
         </p>
       </div>
     </NuxtLink>
