@@ -163,7 +163,7 @@ refresh()
             <p class="text-xs text-gray-400 font-light">
               Showing {{ slice_to }} of {{ data.reviews.length }} comments
             </p>
-            <p v-if="data.reviews.length > 0 && slice_to !== data.reviews.length" :to="`/comments/${id}`" class="cursor-pointer text-xs text-blue-500 font-medium" @click="slice_to = data.reviews.length">
+            <p v-if="data.reviews.length > 0 && slice_to !== data.reviews.length" class="cursor-pointer text-xs text-blue-500 font-medium" @click="slice_to = data.reviews.length">
               See all comments
             </p>
           </div>

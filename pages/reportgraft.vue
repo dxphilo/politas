@@ -119,8 +119,8 @@ function resetForm() {
 <template>
   <div class="mx-auto w-full py-6 text-justify lg:w-3/5 space-y-4">
     <div class="mx-auto w-full py-6 text-justify lg:w-3/5 space-y-4">
-      <p class="text-justify text-3xl font-bold">
-        Report graft case for {{ name }}
+      <p class="text-3xl font-bold">
+        Report graft case for {{ name.trim() }}
       </p>
       <!-- start Step 1 -->
       <div v-if="step === 0">
@@ -128,7 +128,7 @@ function resetForm() {
           <h1 class="text-2xl font-bold">
             Case Title
           </h1>
-          <label for="case_date" class="block py-2 text-sm font-medium light:text-gray-500">This could be a short description about the case/schandal you want to report</label>
+          <label for="case_date" class="block py-2 text-sm font-medium light:text-gray-500">This could be a short description about the case/scandal you want to report</label>
           <textarea
             id="title" v-model="title" placeholder="Enter case title"
             class="mt-1 block w-full border border-gray-300 rounded-md px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm dark:text-gray-900 focus:outline-none focus:ring-green-500"

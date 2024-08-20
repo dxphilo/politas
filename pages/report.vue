@@ -13,14 +13,14 @@ const backendUrl = config.public.backendUrl
 const show_share_card = ref<boolean>(false)
 const step = ref<number>(0)
 const sex = ref<'male' | 'female'>('male')
-const year_of_birth = ref<number>()
-const name = ref<string>('')
-const office = ref<string>('')
-const county = ref<string>('')
-const photo_url = ref<string>('')
-const political_party = ref<string>('')
-const source_website = ref<string>('')
+const year_of_birth = ref<number>(1928)
+const name = ref<string>('Moses Kuria')
+const office = ref<string>('Governor')
+const county = ref<string>('Nairobi')
+const political_party = ref<string>('Kenya Kwanza')
+const source_website = ref<string>('https://nation.africa/kenya/business/mystery-of-sh2-2bn-moses-kuria-ordered-out-of-kebs-kitty-4722074')
 const politician_data = ref<Politician>()
+const imagefile = ref<File | null>(null)
 
 // methods
 
@@ -59,6 +59,11 @@ function handleNext() {
     return
   }
   if (step.value === 1) {
+    step.value++
+    return
+  }
+
+  if (step.value === 2) {
     if (!validateForm()) {
       return
     }
@@ -78,11 +83,23 @@ async function handleSubmit() {
       county: county.value,
       political_party: political_party.value,
       source_website: source_website.value,
-      photo_url: photo_url.value,
       year_of_birth: Number(year_of_birth.value),
       sex: sex.value,
     }
-    const response = await axios.post(`${backendUrl}/politicians`, body_data)
+    const formData = new FormData()
+
+    if (!imagefile.value) {
+      snackbar.add({ title: `Pleass upload an image`, type: 'warning' })
+      return
+    }
+    formData.append('file', imagefile.value)
+    formData.append('json', JSON.stringify(body_data))
+
+    const response = await axios.post(`${backendUrl}/politicians`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
     if (response.status === 201) {
       const data = await response.data
 
@@ -107,6 +124,17 @@ async function handleSubmit() {
   }
 }
 
+function handleImageUpload(event: Event) {
+  if (!event) {
+    snackbar.add({ title: 'Error uploading image', type: 'warning' })
+    return
+  }
+  const target = event.target as HTMLInputElement
+  if (target && target.files) {
+    imagefile.value = target.files[0]
+  }
+}
+
 function checkStepOne() {
   if (!name.value) {
     snackbar.add({ title: 'Please enter name', type: 'warning' })
@@ -114,10 +142,6 @@ function checkStepOne() {
   }
   if (!office.value) {
     snackbar.add({ title: 'Please enter office', type: 'warning' })
-    return false
-  }
-  if (!photo_url.value) {
-    snackbar.add({ title: 'Please enter photo URL', type: 'warning' })
     return false
   }
   if (!sex.value) {
@@ -134,7 +158,6 @@ function resetForm() {
   county.value = ''
   political_party.value = ''
   source_website.value = ''
-  photo_url.value = ''
   sex.value = 'male'
   year_of_birth.value = 0
 }
@@ -161,37 +184,11 @@ function resetForm() {
 
         <div class="py-1">
           <h1 class="text-2xl font-bold">
-            Photo Url
-          </h1>
-          <label for="photo_url" class="block py-1 text-sm font-normal light:text-gray-500">Enter photo url of this politician (image uploads soon 🙏)</label>
-          <input id="photo_url" v-model="photo_url" placeholder="Enter photo url" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
-        </div>
-
-        <div class="py-1">
-          <h1 class="text-2xl font-bold">
             Office
           </h1>
           <label for="office" class="block py-1 text-sm font-normal light:text-gray-500">What office does the politician hold</label>
           <input id="office" v-model="office" placeholder="Enter office" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
         </div>
-        <h1 class="text-2xl font-bold">
-          Sex
-        </h1>
-        <label for="sex" class="block py-1 text-sm text-gray-500 font-normal">Choose sex below</label>
-        <div id="sex" class="my-2 flex flex-row items-center space-x-8">
-          <div class="flex items-center">
-            <input id="male" v-model="sex" name="sex" value="male" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
-            <label for="male" class="ml-2 block text-sm text-gray-700 font-normal">Male</label>
-          </div>
-          <div class="flex items-center">
-            <input id="female" v-model="sex" name="sex" value="female" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
-            <label for="female" class="ml-2 block text-sm text-gray-700 font-normal">Female</label>
-          </div>
-        </div>
-      </div>
-      <!-- end of srep 0 -->
-      <!-- start of step 1 -->
-      <div v-if="step === 1">
         <div>
           <h1 class="text-2xl text-gray-800 font-bold">
             Year of Birth
@@ -200,6 +197,27 @@ function resetForm() {
           <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" max="2024" placeholder="Enter your year of birth" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500">
           <span class="text-xs text-gray-600">{{ age() }} {{ age() > 0 ? 'years' : 'year' }} old</span>
         </div>
+        <div>
+          <h1 class="text-2xl font-bold">
+            Sex
+          </h1>
+
+          <label for="sex" class="block py-1 text-sm text-gray-500 font-normal">Choose sex below</label>
+          <div id="sex" class="my-2 flex flex-row items-center space-x-8">
+            <div class="flex items-center">
+              <input id="male" v-model="sex" name="sex" value="male" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+              <label for="male" class="ml-2 block text-sm text-gray-700 font-normal">Male</label>
+            </div>
+            <div class="flex items-center">
+              <input id="female" v-model="sex" name="sex" value="female" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+              <label for="female" class="ml-2 block text-sm text-gray-700 font-normal">Female</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- end of srep 0 -->
+      <!-- start of step 1 -->
+      <div v-if="step === 1">
         <div class="py-2">
           <h1 class="text-2xl text-gray-800 font-bold">
             County
@@ -240,9 +258,30 @@ function resetForm() {
       </div>
       <!-- end of step 1 -->
 
+      <!-- step 3 image upload -->
+      <div
+        v-if="step === 2"
+        class="h-80 py-4"
+      >
+        <div class="w-full flex items-center justify-center">
+          <label for="dropzone-file" class="h-64 w-full flex flex-col cursor-pointer items-center justify-center border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 dark:border-gray-600 dark:bg-gray-700 hover:bg-gray-100 dark:hover:border-gray-500 dark:hover:bg-gray-800">
+            <div class="flex flex-col items-center justify-center pb-6 pt-5">
+              <svg class="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+              </svg>
+              <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+              <p class="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+            </div>
+            <input id="dropzone-file" type="file" class="hidden" accept="image/*" @change="handleImageUpload($event)">
+          </label>
+        </div>
+      </div>
+      <!-- end of step 3 -->
+
       <div class="mt-4 w-full flex justify-between">
-        <button class="text-sm btn" @click.prevent="handleNext()">
-          {{ step === 0 ? 'Next Step' : 'Submit' }}
+        <button class="flex gap-x-2 text-sm btn" @click.prevent="handleNext()">
+          <IconsJudgeHummer />
+          {{ step === 0 ? 'Next Step' : step === 1 ? `Next Step` : step === 2 ? `Submit Report` : 'Submit' }}
         </button>
         <button v-if="step > 0" class="text-sm btn_secondary" @click.prevent="step = step - 1">
           Back

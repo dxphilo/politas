@@ -66,7 +66,7 @@ async function mostUpvotedCases(): Promise<undefined> {
           </p>
         </div>
       </Vue3Marquee>
-      <div v-else class="mx-auto flex justify-between gap-x-3 lg:w-3/5">
+      <div v-else class="mx-auto flex items-center justify-center gap-x-3 lg:w-3/5">
         <div v-for="n in 4" :key="n" class="px-3">
           <SkeletonSliderCard />
         </div>
@@ -113,7 +113,7 @@ async function mostUpvotedCases(): Promise<undefined> {
             </div>
             <div class="my-1">
               <p class="text-base font-light light:text-slate-5">
-                {{ caseData.case_description }}
+                {{ caseData.case_description.length > 355 ? `${caseData.case_description.slice(0, 355)} ...` : caseData.case_description }}
               </p>
             </div>
             <div class="my-2 flex space-x-4">

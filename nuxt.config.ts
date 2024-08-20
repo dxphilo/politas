@@ -12,6 +12,12 @@ export default defineNuxtConfig({
     '@stefanobartoletti/nuxt-social-share',
     'nuxt-snackbar',
   ],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
   runtimeConfig: {
     public: {
       backendUrl: 'http://127.0.0.0:8080',
@@ -47,6 +53,7 @@ export default defineNuxtConfig({
     // ...
   },
   css: [
+    '~/assets/css/main.css',
     '@unocss/reset/tailwind.css',
   ],
 

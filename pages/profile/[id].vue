@@ -5,6 +5,7 @@ import { formatDate, isValidImageUrl } from '~/utils/utils'
 const route = useRoute()
 const id = ref<number>(0)
 const show_share_popup = ref<boolean>(false)
+const slice_to = ref<number>(3)
 
 if ('id' in route.params)
   id.value = Number.parseInt(route.params.id)
@@ -33,11 +34,11 @@ definePageMeta({
           <div class="mx-auto w-full">
             <div class="mx-auto w-full flex justify-around lg:w-3/5 lg:justify-around">
               <img :src="photoUrl" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full object-cover">
-              <div class="text-justify">
+              <div class="flex flex-col gap-y-1.5 text-justify">
                 <h2 class="text-xl font-bold">
                   {{ politician.name }}
                 </h2>
-                <p class="text-sm text-gray-500">
+                <p class="text-base text-gray-500">
                   {{ politician.office }}
                 </p>
                 <p class="flex flex-row items-center gap-x-2 text-sm text-gray-500">
@@ -48,8 +49,9 @@ definePageMeta({
                   <PoliticalParty class="h-4 w-4" />
                   Party: {{ politician.political_party }}
                 </p>
-                <button class="h-7 w-7 flex items-center justify-center border border-gray-3 rounded-full hover:bg-gray-2" @click="show_share_popup = !show_share_popup">
-                  <IconsSocialShare class="h-4 w-4" />
+                <button class="max-w-25 inline-flex items-center gap-x-2 border border-gray-400 rounded-full px-4 py-1.5 text-base hover:bg-gray-100 dark:hover:text-black" @click="show_share_popup = !show_share_popup">
+                  <IconsShare class="h-5 w-5" />
+                  <span>Share</span>
                 </button>
               </div>
             </div>
@@ -60,13 +62,14 @@ definePageMeta({
           <h2 class="text-xl text-gray-500">
             Reported Graft Cases : <span class="text-white font-bold light:text-black">{{ corruption_cases.length > 0 ? corruption_cases.length : 0 }}</span>
           </h2>
-          <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="text-sm btn">
+          <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="flex gap-x-2 text-sm btn">
+            <IconsJudgeHummer />
             Report Graft
           </NuxtLink>
         </div>
         <div v-if="corruption_cases.length > 0">
           <div class="mx-auto mt-6 w-3/5 flex flex-wrap gap-6">
-            <NuxtLink v-for="caseItem in corruption_cases" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform break-all border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
+            <NuxtLink v-for="caseItem in corruption_cases.slice(0, slice_to)" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform break-all border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
               <h3 class="mb-2 text-xl font-medium">
                 {{ caseItem.description }}
               </h3>
@@ -93,7 +96,7 @@ definePageMeta({
                 {{ caseItem.title }}
               </div>
               <div class="text-justify text-base font-light light:text-slate-5">
-                {{ caseItem.case_description }}
+                {{ caseItem.case_description.length > 355 ? `${caseItem.case_description.slice(0, 355)} ...` : caseItem.case_description }}
               </div>
               <div class="my-2 flex space-x-4">
                 <div class="flex items-center gap-x-1 border border-green rounded-full px-2 py-2 text-xs text-gray-700">
@@ -113,12 +116,25 @@ definePageMeta({
             No reported Graft Cases, Do you want to add your report?
           </p>
           <div class="flex justify-center gap-x-4">
-            <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="btn">
+            <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="flex gap-x-2 btn">
+              <IconsJudgeHummer />
               Report Graft
             </NuxtLink>
             <GoBack />
           </div>
         </div>
+        <!-- start -->
+        <div>
+          <div v-if="corruption_cases.length > 3" class="pt-6">
+            <p class="text-xs text-gray-400 font-light">
+              Showing {{ slice_to }} of {{ corruption_cases.length }} graft cases
+            </p>
+            <p v-if="corruption_cases.length > 0 && slice_to !== corruption_cases.length" class="cursor-pointer text-xs text-blue-500 font-medium" @click="slice_to = corruption_cases.length">
+              See all graft cases
+            </p>
+          </div>
+        </div>
+        <!-- end -->
       </div>
     </div>
     <!-- no politician found -->
@@ -127,7 +143,7 @@ definePageMeta({
     </div>
     <Teleport to="body">
       <div v-if="show_share_popup">
-        <PopupsPopup>
+        <PopupsPopup class="animate-slideInDown">
           <div class="w-full flex gap-2 p-9">
             <div>
               <div class="flex">
