@@ -20,6 +20,7 @@ const { data } = await useFetch('/api/politicians')
 const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
 const upvotedCases = ref<CorruptionCase[]>()
+const paginate = ref<number>(18)
 
 onMounted(() => {
   mostUpvotedCases()
@@ -143,7 +144,7 @@ async function mostUpvotedCases(): Promise<undefined> {
     <p>Reported graft cases with highest upvotes</p>
   </div>
   <div v-if="data" class="mx-auto w-3/5 flex flex-wrap lg:gap-6">
-    <NuxtLink v-for="politician in data?.politicians" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:bg-gray-1 hover:dark:bg-gray-5">
+    <NuxtLink v-for="politician in data?.politicians?.slice(0, paginate)" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:bg-gray-1 hover:dark:bg-gray-5">
       <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full bg-cover">
       <div class="p-4">
         <h5 class="text-xl font-bold">
@@ -164,4 +165,16 @@ async function mostUpvotedCases(): Promise<undefined> {
   <div v-else class="mx-auto w-3/5 flex flex-wrap gap-6">
     <SkeletonPoliticianCard v-for="n in 6" :key="n" />
   </div>
+  <!-- staret pagination -->
+  <div>
+    <div v-if="data?.politicians?.length! > paginate">
+      <p class="text-xs text-gray-400 font-light">
+        Showing {{ paginate }} of {{ data?.politicians?.length! }} comments
+      </p>
+      <p v-if="data?.politicians?.length! > 0 && paginate !== data?.politicians?.length!" class="cursor-pointer text-xs text-blue-500 font-medium" @click="paginate += 20">
+        See all comments
+      </p>
+    </div>
+  </div>
+  <!-- end pagination -->
 </template>

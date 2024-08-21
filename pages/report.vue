@@ -13,14 +13,16 @@ const backendUrl = config.public.backendUrl
 const show_share_card = ref<boolean>(false)
 const step = ref<number>(0)
 const sex = ref<'male' | 'female'>('male')
-const year_of_birth = ref<number>(1928)
-const name = ref<string>('Moses Kuria')
-const office = ref<string>('Governor')
-const county = ref<string>('Nairobi')
-const political_party = ref<string>('Kenya Kwanza')
-const source_website = ref<string>('https://nation.africa/kenya/business/mystery-of-sh2-2bn-moses-kuria-ordered-out-of-kebs-kitty-4722074')
+const year_of_birth = ref<number>()
+const name = ref<string>('')
+const office = ref<string>('')
+const county = ref<string>('')
+const political_party = ref<string>('')
+const source_website = ref<string>('')
 const politician_data = ref<Politician>()
 const imagefile = ref<File | null>(null)
+const imageUrl = ref<string>('')
+const newYear = new Date().getFullYear()
 
 // methods
 
@@ -110,7 +112,7 @@ async function handleSubmit() {
       resetForm()
 
       // redirect to the already crated public profile
-      router.push(`/profile/${politician_data.value!.politician_id!}`)
+      router.push(`/profile/${politician_data.value!.politician_id!}?ref=sign_up`)
       return
     }
     throw createError({
@@ -132,7 +134,13 @@ function handleImageUpload(event: Event) {
   const target = event.target as HTMLInputElement
   if (target && target.files) {
     imagefile.value = target.files[0]
+    imageUrl.value = URL.createObjectURL(imagefile.value!)
   }
+}
+
+function removeUploadedImage() {
+  imagefile.value = null
+  imageUrl.value = ''
 }
 
 function checkStepOne() {
@@ -194,7 +202,7 @@ function resetForm() {
             Year of Birth
           </h1>
           <label for="year" class="block py-1 text-sm text-gray-500 font-normal">Whats the year of birth of this politician</label>
-          <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" max="2024" placeholder="Enter your year of birth" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500">
+          <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" :max="`${newYear}`" placeholder="Enter year of birth of politician" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500">
           <span class="text-xs text-gray-600">{{ age() }} {{ age() > 0 ? 'years' : 'year' }} old</span>
         </div>
         <div>
@@ -261,9 +269,20 @@ function resetForm() {
       <!-- step 3 image upload -->
       <div
         v-if="step === 2"
-        class="h-80 py-4"
+        class="py-4"
       >
-        <div class="w-full flex items-center justify-center">
+        <div class="w-full flex flex-col">
+          <!-- start of image -->
+          <div v-if="imagefile" class="group relative h-[150px] w-[150px] pb-8">
+            <img :src="`${imageUrl}`" alt="Image" class="h-full w-full rounded-lg object-cover">
+            <div class="absolute inset-0 flex items-center justify-center rounded-lg bg-black bg-opacity-50 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+              <button class="rounded bg-red-600 px-4 py-2 text-white" @click.prevent="removeUploadedImage()">
+                Delete
+              </button>
+            </div>
+          </div>
+
+          <!-- end of image -->
           <label for="dropzone-file" class="h-64 w-full flex flex-col cursor-pointer items-center justify-center border-2 border-gray-300 rounded-lg border-dashed bg-gray-50 dark:border-gray-600 dark:bg-gray-700 hover:bg-gray-100 dark:hover:border-gray-500 dark:hover:bg-gray-800">
             <div class="flex flex-col items-center justify-center pb-6 pt-5">
               <svg class="mb-4 h-8 w-8 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
