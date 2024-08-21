@@ -68,7 +68,7 @@ definePageMeta({
           </NuxtLink>
         </div>
         <div v-if="corruption_cases.length > 0">
-          <div class="mx-auto mt-6 w-3/5 flex flex-wrap gap-6">
+          <div class="mx-auto mt-6 lg:w-3/5 flex flex-wrap gap-6">
             <NuxtLink v-for="caseItem in corruption_cases.slice(0, slice_to)" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform break-all border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
               <h3 class="mb-2 text-xl font-medium">
                 {{ caseItem.description }}
