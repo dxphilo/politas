@@ -138,10 +138,10 @@ async function mostUpvotedCases(): Promise<undefined> {
     </div>
   </div>
   <div>
-    <h1 class="py-10 header1">
+    <h1 class="pt-10 header1">
       Reported Politicians
     </h1>
-    <p>Reported graft cases with highest upvotes</p>
+    <p class="py-3 text-base text-gray-500">Reported graft cases with highest upvotes</p>
   </div>
   <div v-if="data" class="mx-auto w-3/5 flex flex-wrap lg:gap-6">
     <NuxtLink v-for="politician in data?.politicians?.slice(0, paginate)" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:bg-gray-1 hover:dark:bg-gray-5">
@@ -162,10 +162,10 @@ async function mostUpvotedCases(): Promise<undefined> {
       </div>
     </NuxtLink>
   </div>
-  <div v-else class="mx-auto w-3/5 flex flex-wrap gap-6">
+  <div v-else class="mx-auto w-3/5 flex flex-wrap gap-8 py-6 justify-center">
     <SkeletonPoliticianCard v-for="n in 6" :key="n" />
   </div>
-  <!-- staret pagination -->
+  <!-- start pagination -->
   <div>
     <div v-if="data?.politicians?.length! > paginate">
       <p class="text-xs text-gray-400 font-light">
