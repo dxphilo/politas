@@ -46,10 +46,19 @@ async function mostUpvotedCases(): Promise<undefined> {
     <p class="mx-auto w-full pt-2 text-base text-gray-500 lg:w-2/5">
       Our mission is to create a public database of corrupt politicians, sourced to ensure accuracy. We aim to hold politicians accountable for every action taken while in office.
     </p>
-    <NuxtLink to="/report" class="flex gap-x-2 btn">
-      <IconsJudgeHummer />
-      Report Graft
-    </NuxtLink>
+    <div class="flex gap-x-8">
+      <NuxtLink to="/report" class="flex gap-x-2 btn">
+        <IconsJudgeHummer />
+        Report Graft
+      </NuxtLink>
+      <div>
+        <NuxtLink to="/about" class="flex btn_black">
+          <span>
+            About Us
+          </span>
+        </NuxtLink>
+      </div>
+    </div>
   </div>
   <div class="py-10">
     <h1 class="header1">
@@ -61,7 +70,7 @@ async function mostUpvotedCases(): Promise<undefined> {
     <div class="mx-auto mb-6 pt-6 lg:w-3/5">
       <Vue3Marquee v-if="data?.politicians">
         <div v-for="politician in data?.politicians.slice(0, 10)" :key="politician.politician_id" class="px-3">
-          <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-42 w-42 border-2 border-gray-4 rounded-full bg-cover">
+          <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-42 w-42 border border-gray-4 rounded-full bg-cover">
           <p class="pt-4 text-lg">
             {{ politician.name }}
           </p>
@@ -141,11 +150,13 @@ async function mostUpvotedCases(): Promise<undefined> {
     <h1 class="pt-10 header1">
       Reported Politicians
     </h1>
-    <p class="py-3 text-base text-gray-500">Reported graft cases with highest upvotes</p>
+    <p class="py-3 text-base text-gray-500">
+      Reported graft cases with highest upvotes
+    </p>
   </div>
   <div v-if="data" class="mx-auto w-3/5 flex flex-wrap lg:gap-6">
     <NuxtLink v-for="politician in data?.politicians?.slice(0, paginate)" :key="politician.politician_id" :to="`/profile/${politician.politician_id}`" class="w-300px flex flex-col transform items-center justify-center border-gray-200 rounded-lg py-6 transition ease-linear hover:bg-gray-1 hover:dark:bg-gray-5">
-      <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full bg-cover">
+      <img :src="`${isValidImageUrl(politician.photo_url) ? politician.photo_url : randomFallbackUrl()}`" :alt="`${politician.name}`" class="h-[150px] w-[150px] border border-gray-3 rounded-full bg-cover">
       <div class="p-4">
         <h5 class="text-xl font-bold">
           {{ politician.name }}
@@ -162,7 +173,7 @@ async function mostUpvotedCases(): Promise<undefined> {
       </div>
     </NuxtLink>
   </div>
-  <div v-else class="mx-auto w-3/5 flex flex-wrap gap-8 py-6 justify-center">
+  <div v-else class="mx-auto w-3/5 flex flex-wrap justify-center gap-8 py-6">
     <SkeletonPoliticianCard v-for="n in 6" :key="n" />
   </div>
   <!-- start pagination -->

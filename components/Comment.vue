@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { maxCharsDescription } from '~/constants';
 
 const prop = defineProps({
   id: Number,
@@ -56,7 +57,7 @@ async function submitCase() {
         <textarea id="comment" v-model="review_text" rows="4" class="w-full border-0 bg-white px-0 text-sm text-gray-900 dark:bg-gray-800 dark:text-white focus:ring-0 dark:placeholder-gray-400" placeholder="Write a comment..." required />
       </div>
       <div class="flex items-center justify-between border-t px-3 py-2 dark:border-gray-600">
-        <button type="submit" class="flex inline-flex items-center gap-x-2 rounded-lg bg-green-700 px-4 py-2.5 text-center text-xs text-white font-medium hover:bg-green-800 focus:ring-4 focus:ring-green-200 dark:focus:ring-green-900" @click.prevent="checkValues()">
+        <button type="submit" class="inline-flex items-center gap-x-2 rounded-lg bg-green-700 px-4 py-2.5 text-center text-xs text-white font-medium hover:bg-green-800 focus:ring-4 focus:ring-green-200 dark:focus:ring-green-900" @click.prevent="checkValues()">
           <IconsJudgeHummer />
           Post comment
         </button>
@@ -82,5 +83,6 @@ async function submitCase() {
         </div>
       </div>
     </div>
+    <p class="text-sm text-gray-400">{{ maxCharsDescription - review_text.length  }} chars remaining</p>
   </form>
 </template>

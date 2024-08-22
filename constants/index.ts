@@ -1,6 +1,7 @@
 export const appName = 'Public Watch'
 export const appDescription = 'Public Database to track Politicians charged with Corruption'
 export const host = 'https://publicwatchke.vercel.app'
+export const maxCharsDescription: number = 1000
 
 export const kenyanPoliticalParties = [
   'Kenya Kwanza',

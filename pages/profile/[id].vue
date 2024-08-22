@@ -33,7 +33,7 @@ definePageMeta({
         <div class="mx-auto my-4 w-full border-b-1.5 border-gray-4 pb-10 lg:w-3/5">
           <div class="mx-auto w-full">
             <div class="mx-auto w-full flex justify-around lg:w-3/5 lg:justify-around">
-              <img :src="photoUrl" :alt="`${politician.name}`" class="h-[150px] w-[150px] rounded-full object-cover">
+              <img :src="photoUrl" :alt="`${politician.name}`" class="h-[150px] w-[150px] border border-gray-3 rounded-full object-cover">
               <div class="flex flex-col gap-y-1.5 text-justify">
                 <h2 class="text-xl font-bold">
                   {{ politician.name }}
@@ -68,7 +68,7 @@ definePageMeta({
           </NuxtLink>
         </div>
         <div v-if="corruption_cases.length > 0">
-          <div class="mx-auto mt-6 lg:w-3/5 flex flex-wrap gap-6">
+          <div class="mx-auto mt-6 flex flex-wrap gap-6 lg:w-3/5">
             <NuxtLink v-for="caseItem in corruption_cases.slice(0, slice_to)" :key="caseItem.id" :to="`/reviews/${caseItem.id}`" class="w-full transform break-all border border-gray-200 rounded-lg p-6 transition ease-linear hover:border-gray-5 hover:light:bg-gray-1">
               <h3 class="mb-2 text-xl font-medium">
                 {{ caseItem.description }}
@@ -112,13 +112,14 @@ definePageMeta({
           </div>
         </div>
         <div v-else class="mx-auto mb-10 py-4 lg:w-3/5">
-          <p class="py-6 text-lg text-gray-400">
-            No reported Graft Cases, Do you want to add your report?
+          <p class="pt-6 text-lg text-gray-400">
+            No reported Graft Cases for {{ politician.name }}.
           </p>
-          <div class="flex justify-center gap-x-4">
+          <p class="pt-2 text-base text-gray-400">Do you want to add your report?</p>
+          <div class="flex justify-center gap-x-4 py-8">
             <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="flex gap-x-2 btn">
-              <IconsJudgeHummer />
-              Report Graft
+              <IconsPlusSign />
+              Add Report
             </NuxtLink>
             <GoBack />
           </div>

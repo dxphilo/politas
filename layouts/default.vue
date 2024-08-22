@@ -7,7 +7,7 @@ function toggle_shown() {
 </script>
 
 <template>
-  <main class="text-center lg:px-0 md:px-0 px-5">
+  <main class="px-5 text-center lg:px-0 md:px-0">
     <div v-if="is_shown" class="bg-gray py-1 transition duration-300 ease-in-out">
       <div class="mx-auto w-full flex justify-around text-sm lg:w-3/5">
         <p class="">
