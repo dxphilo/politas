@@ -38,7 +38,7 @@ function goToDataPage() {
     <p class="py-3 text-base text-gray-500">
       Rough estimate on the Data That Exposes Corruption
     </p>
-    <div class="my-6 flex flex-wrap justify-around gap-x-6 gap-y-10">
+    <div class="mx-auto my-6 w-4/5 flex flex-wrap justify-around gap-x-6 gap-y-10">
       <div v-for="stat in stats" class="h-[250px] w-[320px] flex flex-col items-center justify-center border border-gray-200 rounded-lg transition hover:light:bg-gray-1">
         <span class="text-5xl">{{ stat.icon }}</span>
         <img :src="`${stat.icon}`" alt="" srcset="">

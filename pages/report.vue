@@ -23,14 +23,30 @@ const politician_data = ref<Politician>()
 const imagefile = ref<File | null>(null)
 const imageUrl = ref<string>('')
 const newYear = new Date().getFullYear()
+const is_loading = ref<boolean>(false)
 
 // methods
+
+const buttonText = computed(() => {
+  if (step.value === 0) {
+    return 'Next Step'
+  }
+  else if (step.value === 1) {
+    return 'Next Step'
+  }
+  else if (step.value === 2) {
+    return is_loading.value ? 'Submitting...' : 'Submit Report'
+  }
+  else {
+    return 'Submit'
+  }
+})
 
 function age() {
   return current_year - year_of_birth.value!
 }
 
-function validateForm(): boolean {
+function checkStepTwo(): boolean {
   if (!year_of_birth.value) {
     snackbar.add({ title: 'Please enter year of birth', type: 'warning' })
     return false
@@ -61,12 +77,16 @@ function handleNext() {
     return
   }
   if (step.value === 1) {
+    if (!checkStepTwo()) {
+      return
+    }
     step.value++
     return
   }
 
   if (step.value === 2) {
-    if (!validateForm()) {
+    if (!imagefile.value) {
+      snackbar.add({ title: 'Please upload an image', type: 'warning' })
       return
     }
     handleSubmit()
@@ -74,11 +94,12 @@ function handleNext() {
 }
 
 async function handleSubmit() {
-  if (!validateForm()) {
+  if (!checkStepTwo() && !imagefile.value && !checkStepOne()) {
     return
   }
 
   try {
+    is_loading.value = true
     const body_data = {
       name: name.value,
       office: office.value,
@@ -103,6 +124,7 @@ async function handleSubmit() {
       },
     })
     if (response.status === 201) {
+      is_loading.value = false
       const data = await response.data
 
       snackbar.add({ title: `${name.value} info added successfully`, text: 'Your contribution is invaluable. Your impact is huge!', type: 'success' })
@@ -121,6 +143,7 @@ async function handleSubmit() {
     })
   }
   catch (error) {
+    is_loading.value = false
     // handle retries
     console.error(error)
   }
@@ -187,7 +210,7 @@ function resetForm() {
             Name
           </h1>
           <label for="name" class="block py-1 text-sm font-normal light:text-gray-500">Enter name of the political</label>
-          <input id="name" v-model="name" placeholder="Enter name" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+          <input id="name" v-model="name" placeholder="Enter name" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500" @keyup.enter="handleNext()">
         </div>
 
         <div class="py-1">
@@ -195,15 +218,15 @@ function resetForm() {
             Office
           </h1>
           <label for="office" class="block py-1 text-sm font-normal light:text-gray-500">What office does the politician hold</label>
-          <input id="office" v-model="office" placeholder="Enter office" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500">
+          <input id="office" v-model="office" placeholder="Enter office" type="text" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:outline-none focus:ring-green-500" @keyup.enter="handleNext()">
         </div>
         <div>
           <h1 class="text-2xl text-gray-800 font-bold">
             Year of Birth
           </h1>
           <label for="year" class="block py-1 text-sm text-gray-500 font-normal">Whats the year of birth of this politician</label>
-          <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" :max="`${newYear}`" placeholder="Enter year of birth of politician" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500">
-          <span class="text-xs text-gray-600">{{ age() }} {{ age() > 0 ? 'years' : 'year' }} old</span>
+          <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" :max="`${newYear}`" placeholder="Enter year of birth of politician" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500" @keyup.enter="handleNext()">
+          <span class="block py-1 text-sm font-normal light:text-gray-500">{{ age() ? age() : `0` }} {{ age() > 0 ? 'years' : 'year' }} old</span>
         </div>
         <div>
           <h1 class="text-2xl font-bold">
@@ -213,11 +236,11 @@ function resetForm() {
           <label for="sex" class="block py-1 text-sm text-gray-500 font-normal">Choose sex below</label>
           <div id="sex" class="my-2 flex flex-row items-center space-x-8">
             <div class="flex items-center">
-              <input id="male" v-model="sex" name="sex" value="male" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+              <input id="male" v-model="sex" name="sex" value="male" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500" @keyup.enter="handleNext()">
               <label for="male" class="ml-2 block text-sm text-gray-700 font-normal">Male</label>
             </div>
             <div class="flex items-center">
-              <input id="female" v-model="sex" name="sex" value="female" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+              <input id="female" v-model="sex" name="sex" value="female" type="radio" class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500" @keyup.enter="handleNext()">
               <label for="female" class="ml-2 block text-sm text-gray-700 font-normal">Female</label>
             </div>
           </div>
@@ -299,10 +322,12 @@ function resetForm() {
 
       <div class="mt-4 w-full flex justify-between">
         <button class="flex gap-x-2 text-sm btn" @click.prevent="handleNext()">
-          <IconsJudgeHummer />
-          {{ step === 0 ? 'Next Step' : step === 1 ? `Next Step` : step === 2 ? `Submit Report` : 'Submit' }}
+          <IconsLoading v-if="is_loading" class="text-xl" />
+          <IconsJudgeHummer v-else />
+          {{ buttonText }}
         </button>
-        <button v-if="step > 0" class="text-sm btn_secondary" @click.prevent="step = step - 1">
+        <button v-if="step > 0" class="felx-col flex gap-x-2 text-sm btn_secondary" @click.prevent="step = step - 1">
+          <IconsBack class="text-xl" />
           Back
         </button>
       </div>

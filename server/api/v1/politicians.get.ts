@@ -5,7 +5,7 @@ const backendUrl = config.public.backendUrl
 
 async function fetchPoliticians() {
   try {
-    const response = await axios.get(`${backendUrl}politicians`)
+    const response = await axios.get(`${backendUrl}/politicians`)
     if (response.status === 200) {
       return response.data.data.Multiple
     }

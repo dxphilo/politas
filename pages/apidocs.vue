@@ -3,7 +3,7 @@ const backendUrl = 'https://publicwatchke.vercel.app'
 </script>
 
 <template>
-  <div class="mx-auto lg:w-3/5">
+  <div class="mx-auto lg:w-2.5/5">
     <h1 class="mb-4 text-center text-3xl font-bold">
       Public Watch API
     </h1>

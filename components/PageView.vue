@@ -20,7 +20,7 @@ interface CorruptionCase {
 const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
 const upvotedCases = ref<CorruptionCase[]>()
-const paginate = ref<number>(12)
+const paginate = ref<number>(6)
 
 const { data } = await useFetch('/api/politicians')
 
@@ -41,12 +41,12 @@ async function mostUpvotedCases(): Promise<undefined> {
 </script>
 
 <template>
-  <div class="h-80 flex flex-col items-center justify-center gap-y-6">
+  <div class="mt-10 h-80 flex flex-col items-center justify-center gap-y-6">
     <h1 class="text-2xl font-bold lg:text-5xl">
       Report Corrupt Politicians
     </h1>
     <p class="mx-auto w-full pt-2 text-base text-gray-500 lg:w-2/5">
-      Our mission is to build a comprehensive public database documenting all politicians charged with corruption, abuse of office, and misuse of public resources.
+      Our mission is to build a free public database documenting all politicians charged with corruption, abuse of office, and misuse of public resources.
     </p>
     <div class="flex gap-x-8">
       <NuxtLink to="/report" class="flex gap-x-2 btn">
@@ -86,7 +86,7 @@ async function mostUpvotedCases(): Promise<undefined> {
     </div>
   </div>
   <!-- start scandal -->
-  <CorruptionStatsCard class="mx-auto lg:w-2/5" />
+  <CorruptionStatsCard class="mx-auto lg:w-3/5" />
   <!-- end scandal -->
   <div class="py-6">
     <h1 class="header1">
@@ -184,10 +184,10 @@ async function mostUpvotedCases(): Promise<undefined> {
   <div>
     <div v-if="data?.politicians?.length! > paginate">
       <p class="text-xs text-gray-400 font-light">
-        Showing {{ paginate }} of {{ data?.politicians?.length! }} comments
+        Showing {{ paginate }} of {{ data?.politicians?.length! }} politicians
       </p>
       <p v-if="data?.politicians?.length! > 0 && paginate !== data?.politicians?.length!" class="cursor-pointer text-xs text-blue-500 font-medium" @click="paginate += 20">
-        See all comments
+        See all politicians
       </p>
     </div>
   </div>
