@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import axios from 'axios'
+import CorruptionStatsCard from './CorruptionStatsCard.vue'
 import { randomFallbackUrl } from '~/utils/utils'
 
 interface CorruptionCase {
@@ -16,11 +17,12 @@ interface CorruptionCase {
   updated_at: string
 }
 
-const { data } = await useFetch('/api/politicians')
 const config = useRuntimeConfig()
 const backendUrl = config.public.backendUrl
 const upvotedCases = ref<CorruptionCase[]>()
-const paginate = ref<number>(18)
+const paginate = ref<number>(12)
+
+const { data } = await useFetch('/api/politicians')
 
 onMounted(() => {
   mostUpvotedCases()
@@ -44,7 +46,7 @@ async function mostUpvotedCases(): Promise<undefined> {
       Report Corrupt Politicians
     </h1>
     <p class="mx-auto w-full pt-2 text-base text-gray-500 lg:w-2/5">
-      Our mission is to create a public database of corrupt politicians, sourced to ensure accuracy. We aim to hold politicians accountable for every action taken while in office.
+      Our mission is to build a comprehensive public database documenting all politicians charged with corruption, abuse of office, and misuse of public resources.
     </p>
     <div class="flex gap-x-8">
       <NuxtLink to="/report" class="flex gap-x-2 btn">
@@ -83,7 +85,9 @@ async function mostUpvotedCases(): Promise<undefined> {
       </div>
     </div>
   </div>
-
+  <!-- start scandal -->
+  <CorruptionStatsCard class="mx-auto lg:w-2/5" />
+  <!-- end scandal -->
   <div class="py-6">
     <h1 class="header1">
       Highest Upvoted Graft Cases
@@ -94,13 +98,13 @@ async function mostUpvotedCases(): Promise<undefined> {
   </div>
   <div class="mx-auto lg:w-3/5">
     <div v-if="upvotedCases && upvotedCases.length > 0" class="flex flex-col gap-y-8">
-      <div v-for="caseData in upvotedCases.slice(0, 4)" :key="caseData.id">
+      <div v-for="caseData in upvotedCases.slice(0, 3)" :key="caseData.id">
         <NuxtLink :to="`/reviews/${caseData.id}`">
           <div class="transform break-all border border-gray-200 rounded-lg p-6 text-justify transition hover:light:bg-gray-1">
             <div class="flex justify-between">
               <div class="mb-1">
-                <p class="text-lg font-medium light:text-gray-700">
-                  <span class="font-bold">Name:</span> {{ caseData.name }}
+                <p class="text-base text-gray-500">
+                  <span class="text-base text-gray-500">Involved:</span> {{ caseData.name }}
                 </p>
               </div>
               <p class="text-sm text-gray-500">
@@ -142,7 +146,7 @@ async function mostUpvotedCases(): Promise<undefined> {
     </div>
     <div v-else>
       <div class="flex flex-col gap-y-8">
-        <SkeletonCaseLoader v-for="n in 4" :key="n" />
+        <SkeletonCaseLoader v-for="n in 3" :key="n" />
       </div>
     </div>
   </div>

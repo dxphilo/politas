@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { maxCharsDescription } from '~/constants';
+import { maxCharsDescription } from '~/constants'
 
 const prop = defineProps({
   id: Number,
@@ -83,6 +83,8 @@ async function submitCase() {
         </div>
       </div>
     </div>
-    <p class="text-sm text-gray-400">{{ maxCharsDescription - review_text.length  }} chars remaining</p>
+    <p class="text-sm text-gray-400">
+      {{ maxCharsDescription - review_text.length }} chars remaining
+    </p>
   </form>
 </template>

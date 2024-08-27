@@ -115,7 +115,9 @@ definePageMeta({
           <p class="pt-6 text-lg text-gray-400">
             No reported Graft Cases for {{ politician.name }}.
           </p>
-          <p class="pt-2 text-base text-gray-400">Do you want to add your report?</p>
+          <p class="pt-2 text-base text-gray-400">
+            Do you want to add your report?
+          </p>
           <div class="flex justify-center gap-x-4 py-8">
             <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="flex gap-x-2 btn">
               <IconsPlusSign />
@@ -159,7 +161,7 @@ definePageMeta({
                 </button>
               </div>
               <div class="flex gap-x-4 py-2">
-                <img :src="photoUrl" :alt="`${politician.name} profile image`" class="h-[100px] w-[100px] border border-gray-5 rounded-lg object-cover">
+                <img :src="photoUrl" :alt="`${politician.name} profile image`" class="h-[100px] w-[100px] border border-gray-2 rounded-full object-cover">
                 <div class="text-base text-gray-500">
                   <p>County: {{ politician.county }}</p>
                   <p>Party : {{ politician.political_party }}</p>

@@ -40,7 +40,7 @@ defineEmits(['toggle'])
             </button>
           </div>
           <div class="flex gap-x-4 py-2">
-            <img :src="`${isValidImageUrl(politician.photo_url!) ? politician.photo_url! : randomFallbackUrl()}`" :alt="`${politician.name}'s profile image`" class="h-[100px] w-[100px] border border-gray-5 rounded-lg object-cover">
+            <img :src="`${isValidImageUrl(politician.photo_url!) ? politician.photo_url! : randomFallbackUrl()}`" :alt="`${politician.name}'s profile image`" class="h-[100px] w-[100px] border border-gray-2 rounded-full object-cover">
             <div class="text-base text-gray-500">
               <p>County: {{ politician.county }}</p>
               <p>Party : {{ politician.political_party }}</p>
