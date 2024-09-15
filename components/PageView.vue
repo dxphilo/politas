@@ -43,7 +43,7 @@ async function mostUpvotedCases(): Promise<undefined> {
 <template>
   <div class="mt-10 h-80 flex flex-col items-center justify-center gap-y-6">
     <h1 class="text-2xl font-bold lg:text-5xl">
-      Report Corrupt Politicians
+      Corrupt Politicians Database
     </h1>
     <p class="mx-auto w-full pt-2 text-base text-gray-500 lg:w-2/5">
       Our mission is to build a free public database documenting all politicians charged with corruption, abuse of office, and misuse of public resources.

@@ -56,10 +56,6 @@ function checkStepTwo(): boolean {
     snackbar.add({ title: 'Please enter political party', type: 'warning' })
     return false
   }
-  if (!source_website.value) {
-    snackbar.add({ title: 'Please enter source website', type: 'warning' })
-    return false
-  }
   if (!county.value) {
     snackbar.add({ title: 'Please enter county', type: 'warning' })
     return false
@@ -225,7 +221,7 @@ function resetForm() {
             Year of Birth
           </h1>
           <label for="year" class="block py-1 text-sm text-gray-500 font-normal">Whats the year of birth of this politician</label>
-          <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" :max="`${newYear}`" placeholder="Enter year of birth of politician" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500" @keyup.enter="handleNext()">
+          <input id="year_of_birth" v-model="year_of_birth" type="number" min="1900" :max="`${newYear}`" placeholder="1958" class="mt-1 block w-full border border-gray-300 rounded-md bg-gray-50 px-3 py-2 shadow-sm focus:border-green-500 sm:text-sm focus:ring-green-500" @keyup.enter="handleNext()">
           <span class="block py-1 text-sm font-normal light:text-gray-500">{{ age() ? age() : `0` }} {{ age() > 0 ? 'years' : 'year' }} old</span>
         </div>
         <div>

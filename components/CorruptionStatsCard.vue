@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-const router = useRouter()
-
 const stats = ref([
   {
     title: 'Cases Filed per Year',
@@ -23,11 +21,6 @@ const stats = ref([
     icon: '👨‍⚖️',
   },
 ])
-
-function goToDataPage() {
-  // Implement navigation to the data page
-  router.push('/data')
-}
 </script>
 
 <template>
@@ -39,7 +32,7 @@ function goToDataPage() {
       Rough estimate on the Data That Exposes Corruption
     </p>
     <div class="mx-auto my-6 w-4/5 flex flex-wrap justify-around gap-x-6 gap-y-10">
-      <div v-for="stat in stats" class="h-[250px] w-[320px] flex flex-col items-center justify-center border border-gray-200 rounded-lg transition hover:light:bg-gray-1">
+      <div v-for="stat in stats" :key="stat.value" class="h-[250px] w-[320px] flex flex-col items-center justify-center border border-gray-200 rounded-lg transition hover:light:bg-gray-1">
         <span class="text-5xl">{{ stat.icon }}</span>
         <img :src="`${stat.icon}`" alt="" srcset="">
         <div class="flex flex-col pt-8">

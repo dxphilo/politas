@@ -13,7 +13,7 @@ function gotoUrl() {
 <template>
   <div class="modal-animation fixed bottom-0 left-0 right-0 top-0 z-30 h-screen w-full flex items-center justify-center bg-gray-300 bg-opacity-80 dark:bg-gray5 dark:bg-opacity-50">
     <div
-      class="card-animation popup z-10 mx-auto w-600px overflow-y-auto rounded-lg rounded-lg px-6 pb-6 pt-4"
+      class="card-animation popup z-10 mx-auto w-600px overflow-y-auto rounded-lg px-6 pb-6 pt-4"
     >
       <div class="relative rounded bg-white shadow dark:bg-gray-700">
         <button type="button" class="absolute end-2.5 top-3 ms-auto h-8 w-8 inline-flex items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white" @click.once.prevent="$emit('toggle')">
