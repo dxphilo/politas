@@ -30,17 +30,14 @@ definePageMeta({
   <div>
     <div v-if="data">
       <div>
-        <div class="mx-auto my-4 w-full border-b-1.5 border-gray-4 pb-10 lg:w-3/5">
+        <div class="mx-auto my-4 w-full border-b-1 border-gray-4 pb-10 lg:w-3/5">
           <div class="mx-auto w-full">
-            <div class="mx-auto w-full flex justify-around lg:w-3/5 lg:justify-around">
+            <div class="mx-auto w-full flex flex-col items-center justify-center lg:w-3/5 lg:flex-row lg:justify-around">
               <img :src="photoUrl" :alt="`${politician.name}`" class="h-[150px] w-[150px] border border-gray-3 rounded-full object-cover">
-              <div class="flex flex-col gap-y-1.5 text-justify">
+              <div class="flex flex-col items-center justify-center gap-y-1.5 pt-4 text-center lg:items-start lg:pt-0 lg:text-justify">
                 <h2 class="text-xl font-bold">
                   {{ politician.name }}
                 </h2>
-                <p class="text-base text-gray-500">
-                  {{ politician.office }}
-                </p>
                 <p class="flex flex-row items-center gap-x-2 text-sm text-gray-500">
                   <Location class="h-4 w-4" />
                   County: {{ politician.county }}
@@ -49,9 +46,9 @@ definePageMeta({
                   <PoliticalParty class="h-4 w-4" />
                   Party: {{ politician.political_party }}
                 </p>
-                <button class="max-w-25 inline-flex items-center gap-x-2 border border-gray-400 rounded-full px-4 py-1.5 text-base hover:bg-gray-100 dark:hover:text-black" @click="show_share_popup = !show_share_popup">
+                <button class="gap-x-2 btn_black" @click="show_share_popup = !show_share_popup">
                   <IconsShare class="h-5 w-5" />
-                  <span>Share</span>
+                  <span>Share Profile</span>
                 </button>
               </div>
             </div>
@@ -60,12 +57,11 @@ definePageMeta({
         <!-- Display corruption cases -->
         <div class="mx-auto flex justify-between lg:w-3/5">
           <h2 class="text-xl text-gray-500">
-            Reported Graft Cases : <span class="text-white font-bold light:text-black">{{ corruption_cases.length > 0 ? corruption_cases.length : 0 }}</span>
+            Reported Graft Cases
           </h2>
-          <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="flex gap-x-2 text-sm btn">
-            <IconsJudgeHummer />
-            Report Graft
-          </NuxtLink>
+          <h2 class="text-xl text-white font-bold light:text-black">
+            {{ corruption_cases.length > 0 ? corruption_cases.length : 0 }}
+          </h2>
         </div>
         <div v-if="corruption_cases.length > 0">
           <div class="mx-auto mt-6 flex flex-wrap gap-6 lg:w-3/5">
@@ -115,13 +111,13 @@ definePageMeta({
           <p class="pt-6 text-lg text-gray-400">
             No reported Graft Cases for {{ politician.name }}.
           </p>
-          <p class="pt-2 text-base text-gray-400">
+          <p class="pt-2 text-lg text-gray-400">
             Do you want to add your report?
           </p>
           <div class="flex justify-center gap-x-4 py-8">
             <NuxtLink :to="`/reportgraft?politician_id=${id}&name=${politician.name}`" class="flex gap-x-2 btn">
               <IconsPlusSign />
-              Add Report
+              Add Graft
             </NuxtLink>
             <GoBack />
           </div>

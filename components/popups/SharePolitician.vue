@@ -18,7 +18,7 @@ defineEmits(['toggle'])
               <span class="sr-only">Close modal</span>
             </button>
           </div>
-          <div class="flex justify-center items-center flex-wrap gap-4 py-5">
+          <div class="flex flex-wrap items-center justify-center gap-4 py-5">
             <SocialShare
               v-for="network in ['facebook', 'twitter', 'linkedin', 'email', 'whatsapp', 'reddit']"
               :key="network"

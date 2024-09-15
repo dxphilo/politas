@@ -104,7 +104,7 @@ async function mostUpvotedCases(): Promise<undefined> {
             <div class="flex justify-between">
               <div class="mb-1">
                 <p class="text-base text-gray-500">
-                  <span class="text-base text-gray-500">Involved:</span> {{ caseData.name }}
+                  {{ caseData.name }}
                 </p>
               </div>
               <p class="text-sm text-gray-500">
@@ -116,7 +116,6 @@ async function mostUpvotedCases(): Promise<undefined> {
             </div>
             <div>
               <p class="text-lg light:text-gray-700">
-                <span class="font-bold">Title: </span>
                 <span class="font-semibold">
                   {{ caseData.title?.trim() }}
                 </span>
@@ -165,15 +164,17 @@ async function mostUpvotedCases(): Promise<undefined> {
         <h5 class="text-xl font-bold">
           {{ politician.name }}
         </h5>
-        <p class="">
-          Office: {{ politician.office }}
-        </p>
-        <p class="">
-          County: {{ politician.county }}
-        </p>
-        <p class="">
-          Party: {{ politician.political_party }}
-        </p>
+        <div class="text-gray-500">
+          <p class="">
+            Office: {{ politician.office }}
+          </p>
+          <p class="">
+            County: {{ politician.county }}
+          </p>
+          <p class="">
+            Party: {{ politician.political_party }}
+          </p>
+        </div>
       </div>
     </NuxtLink>
   </div>

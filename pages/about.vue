@@ -25,10 +25,10 @@ const show_share = ref<boolean>(false)
             Our mission is simple: to document and share the truth about corruption, ensuring that every case, every misuse of public resources, and every betrayal of public trust is brought to light.
           </p>
           <p class="mb-6">
-            This is the first iteration of this project, and there's much more to be done. If you're a designer(UI/UX), developer, programmer, or data enthusiast, your help would be invaluable in bringing this project to life. Check out our <a href="/apidocs" class="text-blue-600 font-semibold">Public API</a>.
+            This is the first iteration of this project, and there's much more to be done. If you're a designer(UI/UX), product manager, developer, programmer, or data enthusiast, your help would be invaluable in bringing this project to life. Check out our <a href="/apidocs" class="text-blue-600 font-semibold">Public API</a> or reach out at <span class="text-blue-600 font-semibold">philo7029@gmail.com</span>.
           </p>
           <p class="mb-6">
-            Thank you for being part of this journey. Your support means the world to us and brings us one step closer to a more just and accountable society.
+            Your support means the world to us and brings us one step closer to a more just and accountable Kenyan society.
           </p>
         </div>
       </div>
